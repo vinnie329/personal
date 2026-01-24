@@ -1,66 +1,38 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import FlowField from '@/components/FlowField';
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="home-layout">
+      {/* Left container - 60% width, 32px padding */}
+      <div className="left-container">
+        <img src="/logo.svg" alt="Logo" className="site-logo" />
+        <p className="intro-text">
+          Hi, I'm Vinnie.<br />
+          I'm a product designer.
+        </p>
+        <p className="intro-subtext">
+          I've designed interfaces for Aevo, Ribbon Finance, Kraken, Genius Sports Group and others.
+        </p>
+
+        {/* Selected Work Section */}
+        <section className="work-section">
+          <h2 className="section-label">Selected Work</h2>
+          <a href="#" className="work-link">Aevo - Perps and Options Exchange</a>
+          <a href="#" className="work-link">Aevo - OTC Altcoin Options Settled Onchain</a>
+          <a href="#" className="work-link">Ribbon Finance - DeFi's First Decentralised Options Vaults</a>
+          <a href="#" className="work-link">Ribbon Lend - Unsecured lending to KYC/AML'd institutional market makers</a>
+          <a href="#" className="work-link">Rugby Prediction Market Prototype</a>
+          <a href="#" className="work-link">Aevo and Ribbon Brand Compositions</a>
+        </section>
+      </div>
+
+      {/* Right container - 40% width, flow field background */}
+      <div className="right-container">
+        <FlowField 
+          dashColor="rgba(0, 0, 0, 1.0)" 
+          density={1.2} 
         />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
     </div>
   );
 }

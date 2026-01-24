@@ -1,42 +1,755 @@
+/* ============================================
+   GLOBALS.CSS - Your Complete CSS System
+   ============================================
+   
+   This file contains:
+   1. Font Faces
+   2. CSS Variables (colors, spacing, typography)
+   3. CSS Reset (consistent starting point)
+   4. Base Styles (body, headings, links)
+   5. Utility Classes (container, spacing helpers)
+   6. Component Styles (navbar, footer)
+   
+   ============================================ */
+
+/* ============================================
+   1. FONT FACES
+   ============================================ */
+
+/* PP Neue Montreal - Sans Serif */
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-ThinItalic.woff2') format('woff2');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-LightItalic.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-Book.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-BookItalic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-Regular.woff2') format('woff2');
+  font-weight: 450;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-Italic.woff2') format('woff2');
+  font-weight: 450;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-MediumItalic.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-SemiBoldItalic.woff2') format('woff2');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('/fonts/PPNeueMontreal-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* PP Supply Mono - Monospace */
+@font-face {
+  font-family: 'PP Supply Mono';
+  src: url('/fonts/PPSupplyMono-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Mono';
+  src: url('/fonts/PPSupplyMono-Ultralight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Mono';
+  src: url('/fonts/PPSupplyMono-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Mono';
+  src: url('/fonts/PPSupplyMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Mono';
+  src: url('/fonts/PPSupplyMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Mono';
+  src: url('/fonts/PPSupplyMono-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Mono';
+  src: url('/fonts/PPSupplyMono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Mono';
+  src: url('/fonts/PPSupplyMono-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ============================================
+   2. CSS VARIABLES
+   ============================================
+   
+   Variables let you define values once and reuse them.
+   Change a color here, and it updates everywhere.
+   
+   Usage in your CSS: color: var(--color-primary);
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* --- COLORS --- */
+  /* Main brand colors - customize these to match your style */
+  --color-primary: #2563eb;        /* Blue - for links, buttons, accents */
+  --color-primary-hover: #1d4ed8;  /* Darker blue for hover states */
+  
+  /* Text colors - for readable contrast */
+  --color-text: #1f2937;           /* Dark gray - main body text */
+  --color-text-light: #6b7280;     /* Medium gray - secondary text */
+  --color-text-inverse: #ffffff;   /* White - text on dark backgrounds */
+  
+  /* Background colors */
+  --color-background: #ffffff;     /* White - main page background */
+  --color-background-alt: #f9fafb; /* Light gray - alternate sections */
+  --color-background-dark: #111827;/* Near black - footer background */
+  
+  /* Border colors */
+  --color-border: #e5e7eb;         /* Light gray - subtle borders */
+  
+  /* --- TYPOGRAPHY --- */
+  /* Font families */
+  --font-sans: 'PP Neue Montreal', system-ui, -apple-system, BlinkMacSystemFont, 
+               'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'PP Supply Mono', ui-monospace, SFMono-Regular, 'SF Mono', 
+               Menlo, Consolas, monospace;
+  
+  /* Font sizes - using a modular scale (1.25 ratio) */
+  --text-xs: 0.75rem;    /* 12px - fine print */
+  --text-sm: 0.875rem;   /* 14px - small text */
+  --text-base: 1rem;     /* 16px - body text */
+  --text-lg: 1.125rem;   /* 18px - large body text */
+  --text-xl: 1.25rem;    /* 20px - small headings */
+  --text-2xl: 1.5rem;    /* 24px - h4 */
+  --text-3xl: 1.875rem;  /* 30px - h3 */
+  --text-4xl: 2.25rem;   /* 36px - h2 */
+  --text-5xl: 3rem;      /* 48px - h1 */
+  
+  /* Line heights */
+  --leading-tight: 1.25;  /* For headings */
+  --leading-normal: 1.5;  /* For body text */
+  --leading-relaxed: 1.75;/* For readable paragraphs */
+  
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  
+  /* --- SPACING --- */
+  /* Using a consistent scale makes your design feel cohesive */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+  --space-20: 5rem;    /* 80px */
+  --space-24: 6rem;    /* 96px */
+  
+  /* --- LAYOUT --- */
+  --max-width: 1200px;         /* Maximum content width */
+  --max-width-narrow: 800px;   /* For blog posts, articles */
+  --border-radius: 0.5rem;     /* 8px - rounded corners */
+  --border-radius-lg: 1rem;    /* 16px - larger rounded corners */
+  
+  /* --- TRANSITIONS --- */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+
+/* ============================================
+   2. CSS RESET
+   ============================================
+   
+   This removes default browser styling so everything
+   starts from a consistent baseline.
+   ============================================ */
+
+/* Use border-box for all elements (padding included in width) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-html,
+/* Remove default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevent font size inflation on mobile */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Smooth scrolling for anchor links */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  line-height: var(--leading-normal);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background-color: var(--color-background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+/* Remove list styles on ul, ol with role="list" */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
 }
 
+/* Make images easier to work with */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Inherit fonts for form elements */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove animations for people who prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* ============================================
+   3. BASE STYLES
+   ============================================
+   
+   Default styling for HTML elements
+   ============================================ */
+
+/* --- HEADINGS --- */
+h1, h2, h3, h4, h5, h6 {
+  line-height: var(--leading-tight);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: var(--text-5xl);
+  margin-bottom: var(--space-6);
+}
+
+h2 {
+  font-size: var(--text-4xl);
+  margin-bottom: var(--space-5);
+}
+
+h3 {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-4);
+}
+
+h4 {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-3);
+}
+
+/* --- PARAGRAPHS --- */
+p {
+  margin-bottom: var(--space-4);
+  line-height: var(--leading-relaxed);
+}
+
+/* --- LINKS --- */
 a {
-  color: inherit;
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* --- LISTS --- */
+ul, ol {
+  margin-bottom: var(--space-4);
+  padding-left: var(--space-6);
+}
+
+li {
+  margin-bottom: var(--space-2);
+}
+
+/* --- CODE --- */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: var(--color-background-alt);
+  padding: var(--space-1) var(--space-2);
+  border-radius: 4px;
+}
+
+pre {
+  font-family: var(--font-mono);
+  background-color: var(--color-background-alt);
+  padding: var(--space-4);
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+  margin-bottom: var(--space-4);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* --- HORIZONTAL RULE --- */
+hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-8) 0;
+}
+
+
+/* ============================================
+   4. UTILITY CLASSES
+   ============================================
+   
+   Reusable classes you can add to any element
+   ============================================ */
+
+/* --- CONTAINER --- */
+/* Centers content and sets max-width */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+/* Narrower container for long-form content */
+.container-narrow {
+  max-width: var(--max-width-narrow);
+}
+
+/* --- TEXT ALIGNMENT --- */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* --- TEXT COLORS --- */
+.text-light { color: var(--color-text-light); }
+.text-primary { color: var(--color-primary); }
+
+/* --- SPACING HELPERS --- */
+/* Add these classes to add margin-top to sections */
+.mt-4 { margin-top: var(--space-4); }
+.mt-8 { margin-top: var(--space-8); }
+.mt-12 { margin-top: var(--space-12); }
+.mt-16 { margin-top: var(--space-16); }
+
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-8 { margin-bottom: var(--space-8); }
+.mb-12 { margin-bottom: var(--space-12); }
+.mb-16 { margin-bottom: var(--space-16); }
+
+
+/* ============================================
+   5. LAYOUT COMPONENTS
+   ============================================
+   
+   Styles for the site structure
+   ============================================ */
+
+/* --- PAGE WRAPPER --- */
+/* This creates the sticky footer effect */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content area grows to fill available space */
+.main-content {
+  flex: 1;
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-12);
+}
+
+/* --- NAVBAR --- */
+.navbar {
+  background-color: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-4) 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.navbar-logo:hover {
+  color: var(--color-primary);
+}
+
+.navbar-nav {
+  display: flex;
+  gap: var(--space-6);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-nav a {
+  color: var(--color-text);
+  text-decoration: none;
+  font-weight: var(--font-medium);
+  transition: color var(--transition-fast);
+}
+
+.navbar-nav a:hover {
+  color: var(--color-primary);
+}
+
+/* --- FOOTER --- */
+.footer {
+  background-color: var(--color-background-dark);
+  color: var(--color-text-inverse);
+  padding: var(--space-12) 0;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.footer-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--text-sm);
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--space-6);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  transition: color var(--transition-fast);
+}
+
+.footer-links a:hover {
+  color: var(--color-text-inverse);
+}
+
+
+/* ============================================
+   6. PAGE-SPECIFIC STYLES
+   ============================================
+   
+   Styles for specific pages or sections
+   ============================================ */
+
+/* --- HOME PAGE LAYOUT --- */
+/* Two-column layout: 60% left, 40% right */
+.home-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.left-container {
+  width: 60%;
+  padding: 32px;
+}
+
+.right-container {
+  width: 40%;
+  padding: 0;
+}
+
+.site-logo {
+  margin-bottom: 120px;
+}
+
+.intro-text {
+  color: #000;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 48px;
+  margin-bottom: 32px;
+}
+
+.intro-subtext {
+  color: #888;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  margin-bottom: 64px;
+}
+
+.work-section {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section-label {
+  color: #888;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-family: 'PP Supply Mono', monospace;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+
+.work-link {
+  color: #000;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+.work-link:hover {
+  color: #888;
+}
+
+/* --- HERO SECTION --- */
+/* A large intro section, commonly used on homepages */
+.hero {
+  padding: var(--space-16) 0;
+  text-align: center;
+}
+
+.hero h1 {
+  margin-bottom: var(--space-4);
+}
+
+.hero p {
+  font-size: var(--text-lg);
+  color: var(--color-text-light);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- SECTION --- */
+/* Use for distinct page sections */
+.section {
+  padding: var(--space-16) 0;
+}
+
+.section-alt {
+  background-color: var(--color-background-alt);
+}
+
+
+/* ============================================
+   7. RESPONSIVE DESIGN
+   ============================================
+   
+   Adjustments for different screen sizes
+   ============================================ */
+
+/* Tablet and below (768px) */
+@media (max-width: 768px) {
+  :root {
+    --text-5xl: 2.25rem;  /* Smaller h1 on mobile */
+    --text-4xl: 1.875rem; /* Smaller h2 on mobile */
+  }
+  
+  .navbar-inner {
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .hero {
+    padding: var(--space-10) 0;
   }
 }
