@@ -19,7 +19,7 @@ const NOISE_SCALE = 0.004;
 const TIME_SPEED = 0.001;
 
 // Mouse interaction radius in pixels
-const INTERACTION_RADIUS = 150;
+const INTERACTION_RADIUS = 250;
 
 // Mouse interaction strength (swirl + repulsion)
 const SWIRL_STRENGTH = 2.0;
@@ -117,15 +117,17 @@ export default function FlowField({
 
   const computeGrid = useCallback((width: number, height: number) => {
     const cellSize = GRID_SIZE / density;
-    const cols = Math.ceil(width / cellSize) + 1;
-    const rows = Math.ceil(height / cellSize) + 1;
+    // Add padding so dashes at edges don't get clipped
+    const padding = DASH_LENGTH;
+    const cols = Math.ceil((width - padding * 2) / cellSize) + 1;
+    const rows = Math.ceil((height - padding * 2) / cellSize) + 1;
     
     const points: { x: number; y: number }[] = [];
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         points.push({
-          x: col * cellSize,
-          y: row * cellSize,
+          x: padding + col * cellSize,
+          y: padding + row * cellSize,
         });
       }
     }
