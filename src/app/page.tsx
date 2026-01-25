@@ -1,11 +1,12 @@
 import FlowField from '@/components/FlowField';
+import Logo from '@/components/Logo';
 
 export default function Home() {
   return (
     <div className="home-layout">
       {/* Left container - 60% width, 32px padding */}
       <div className="left-container">
-        <img src="/logo.svg" alt="Logo" className="site-logo" />
+        <Logo className="site-logo" />
         <p className="intro-text">
           Hi, I'm Vinnie.<br />
           I'm a product designer.
@@ -15,14 +16,60 @@ export default function Home() {
         </p>
 
         {/* Selected Work Section */}
-        <section className="work-section">
+        <section className="section">
           <h2 className="section-label">Selected Work</h2>
-          <a href="#" className="work-link">Aevo - Perps and Options Exchange</a>
-          <a href="#" className="work-link">Aevo - OTC Altcoin Options Settled Onchain</a>
-          <a href="#" className="work-link">Ribbon Finance - DeFi's First Decentralised Options Vaults</a>
-          <a href="#" className="work-link">Ribbon Lend - Unsecured lending to KYC/AML'd institutional market makers</a>
-          <a href="#" className="work-link">Rugby Prediction Market Prototype</a>
-          <a href="#" className="work-link">Aevo and Ribbon Brand Compositions</a>
+          <a href="/work/aevo-perps" className="link">Aevo - Perps and Options Exchange</a>
+          <a href="#" className="link">Aevo - OTC Altcoin Options Settled Onchain</a>
+          <a href="#" className="link">Ribbon Finance - DeFi's First Decentralised Options Vaults</a>
+          <a href="#" className="link">Ribbon Lend - Unsecured lending to KYC/AML'd institutional market makers</a>
+          <a href="#" className="link">Rugby Prediction Market Prototype</a>
+        </section>
+
+        {/* A/V Explorations Section */}
+        <section className="section">
+          <h2 className="section-label">A/V Explorations</h2>
+          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+            TouchDesigner
+            <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
+          </a>
+        </section>
+
+        {/* Writing Section */}
+        <section className="section">
+          <h2 className="section-label">Writing</h2>
+          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+            The Global Rules-Based Order is Dead (Jan 2026)
+            <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
+          </a>
+          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+            Four Potential Drivers of Crypto Adoption (July 2019)
+            <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
+          </a>
+        </section>
+
+        {/* Info Section */}
+        <section className="section">
+          <h2 className="section-label">Info</h2>
+          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+            Dribbble
+            <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
+          </a>
+          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+            Instagram
+            <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
+          </a>
+          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+            Twitter
+            <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
+          </a>
+          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+            VSCO
+            <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
+          </a>
+          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+            Linkedin
+            <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
+          </a>
         </section>
       </div>
 
