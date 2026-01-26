@@ -6,7 +6,7 @@ export default function Home() {
     <div className="home-layout">
       {/* Left container - 60% width, 32px padding */}
       <div className="left-container">
-        <Logo className="site-logo" />
+        <Logo className="site-logo" animateOnLoad />
         <p className="intro-text">
           Hi, I'm Vinnie.<br />
           I'm a product designer.

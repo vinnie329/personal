@@ -1,43 +1,29 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function Logo({ className = '' }: { className?: string }) {
+interface LogoProps {
+  className?: string;
+  animateOnLoad?: boolean;
+}
+
+export default function Logo({ className = '', animateOnLoad = false }: LogoProps) {
   const [swapped, setSwapped] = useState(false);
-  const lastTriggerRef = useRef(0);
-
-  const triggerSwap = useCallback(() => {
-    const now = Date.now();
-    if (now - lastTriggerRef.current < 300) return;
-    lastTriggerRef.current = now;
-    setSwapped((prev) => !prev);
-  }, []);
 
   useEffect(() => {
-    // Animate on load after a short delay
-    const loadTimer = setTimeout(() => {
-      setSwapped(true);
-      lastTriggerRef.current = Date.now();
-    }, 300);
-
-    // Animate on click anywhere on the page
-    const handleClick = () => {
-      triggerSwap();
-    };
-    window.addEventListener('click', handleClick);
-
-    return () => {
-      clearTimeout(loadTimer);
-      window.removeEventListener('click', handleClick);
-    };
-  }, [triggerSwap]);
+    // Only animate on load if prop is true
+    if (animateOnLoad) {
+      const loadTimer = setTimeout(() => {
+        setSwapped(true);
+      }, 300);
+      return () => clearTimeout(loadTimer);
+    }
+  }, [animateOnLoad]);
 
   return (
     <div
       className={className}
-      onClick={triggerSwap}
-      onMouseEnter={triggerSwap}
-      style={{ cursor: 'pointer', width: 60, height: 40 }}
+      style={{ width: 60, height: 40 }}
     >
       <svg
         width="60"
@@ -45,7 +31,7 @@ export default function Logo({ className = '' }: { className?: string }) {
         viewBox="0 0 60 40"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        style={{ overflow: 'visible', pointerEvents: 'none' }}
+        style={{ overflow: 'visible' }}
       >
         {/* Left ring - moves right when swapped */}
         <circle
