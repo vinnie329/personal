@@ -19,16 +19,19 @@ export default function Home() {
         <section className="section">
           <h2 className="section-label">Selected Work</h2>
           <a href="/work/aevo-perps" className="link">Aevo - Perps and Options Exchange</a>
-          <a href="#" className="link">Aevo - OTC Altcoin Options Settled Onchain</a>
-          <a href="#" className="link">Ribbon Finance - DeFi's First Decentralised Options Vaults</a>
-          <a href="#" className="link">Ribbon Lend - Unsecured lending to KYC/AML'd institutional market makers</a>
-          <a href="#" className="link">Rugby Prediction Market Prototype</a>
+          <a href="/work/aevo-otc" className="link">Aevo - OTC Altcoin Options Settled Onchain</a>
+          <a href="/work/ribbon-finance" className="link">Ribbon Finance - DeFi's First Decentralised Options Vaults</a>
+          <a href="/work/ribbon-lend" className="link">Ribbon Lend - Unsecured lending to KYC/AML'd institutional market makers</a>
+          <a href="https://dribbble.com/vinnie_p" className="link" target="_blank" rel="noopener noreferrer">
+            Dribbble
+            <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
+          </a>
         </section>
 
         {/* A/V Explorations Section */}
         <section className="section">
           <h2 className="section-label">A/V Explorations</h2>
-          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/f1uxu5/" className="link" target="_blank" rel="noopener noreferrer">
             TouchDesigner
             <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
           </a>
@@ -37,11 +40,11 @@ export default function Home() {
         {/* Writing Section */}
         <section className="section">
           <h2 className="section-label">Writing</h2>
-          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+          <a href="https://sudsy-question-1a5.notion.site/The-Global-Rules-Based-Order-is-Dead-2e0fdeb6cd6680b6b1afc56154af06e8" className="link" target="_blank" rel="noopener noreferrer">
             The Global Rules-Based Order is Dead (Jan 2026)
             <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
           </a>
-          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+          <a href="https://medium.com/@vinnielive/four-potential-drivers-of-crypto-adoption-59be6bf8a75e" className="link" target="_blank" rel="noopener noreferrer">
             Four Potential Drivers of Crypto Adoption (July 2019)
             <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
           </a>
@@ -50,23 +53,19 @@ export default function Home() {
         {/* Info Section */}
         <section className="section">
           <h2 className="section-label">Info</h2>
-          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
-            Dribbble
-            <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
-          </a>
-          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/f1uxu5/" className="link" target="_blank" rel="noopener noreferrer">
             Instagram
             <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
           </a>
-          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+          <a href="https://x.com/vinnie_io" className="link" target="_blank" rel="noopener noreferrer">
             Twitter
             <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
           </a>
-          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+          <a href="https://vsco.co/the-mustard-co/gallery" className="link" target="_blank" rel="noopener noreferrer">
             VSCO
             <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
           </a>
-          <a href="#" className="link" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/vinnie-padmanabhan/" className="link" target="_blank" rel="noopener noreferrer">
             Linkedin
             <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
           </a>

@@ -7,10 +7,14 @@
 
 import type { Metadata } from 'next';
 import './globals.css';
+import PageTransition from '@/components/PageTransition';
 
 export const metadata: Metadata = {
-  title: 'Your Name',
-  description: 'Your personal website.',
+  title: 'Vinnie',
+  description: "Vinnie's personal website",
+  icons: {
+    icon: '/favicon-32x32.png',
+  },
 };
 
 export default function RootLayout({
@@ -21,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+        <PageTransition>
+          {children}
+        </PageTransition>
       </body>
     </html>
   );

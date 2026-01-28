@@ -5,21 +5,13 @@ export default function AevoPerps() {
   return (
     <div className="project-page">
       <Link href="/">
-        <Logo className="project-logo" />
+        <Logo className="project-logo" animateOnLoad />
       </Link>
       
       {/* Header */}
       <header className="project-header">
         <div className="project-title">
           <h1>Aevo - Perps and Options Exchange</h1>
-          <a 
-            href="https://aevo.xyz" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="project-external-link"
-          >
-            <img src="/icons/arrow-up-right.svg" alt="Visit site" className="link-icon" />
-          </a>
         </div>
       </header>
 

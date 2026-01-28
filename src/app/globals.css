@@ -324,6 +324,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Page transition wrapper */
+.page-transition {
+  min-height: 100vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    transition: none !important;
+  }
+}
+
 /* Remove list styles on ul, ol with role="list" */
 ul[role='list'],
 ol[role='list'] {
