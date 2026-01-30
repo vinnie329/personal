@@ -1,9 +1,11 @@
 import FlowField from '@/components/FlowField';
+import ImagePreloader from '@/components/ImagePreloader';
 import Logo from '@/components/Logo';
 
 export default function Home() {
   return (
     <div className="home-layout">
+      <ImagePreloader />
       {/* Left container - 60% width, 32px padding */}
       <div className="left-container">
         <Logo className="site-logo" animateOnLoad />
