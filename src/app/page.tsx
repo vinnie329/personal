@@ -42,9 +42,11 @@ export default function Home() {
         {/* Writing Section */}
         <section className="section">
           <h2 className="section-label">Writing</h2>
-          <a href="https://sudsy-question-1a5.notion.site/The-Global-Rules-Based-Order-is-Dead-2e0fdeb6cd6680b6b1afc56154af06e8" className="link" target="_blank" rel="noopener noreferrer">
+          <a href="/writing/the-global-rules-based-order-is-dead" className="link">
             The Global Rules-Based Order is Dead (Jan 2026)
-            <img src="/icons/arrow-up-right.svg" alt="" className="link-icon" />
+          </a>
+          <a href="/writing/one-player-vs-multiplayer-software" className="link">
+            One-Player vs Multiplayer Software (April 2025)
           </a>
           <a href="https://medium.com/@vinnielive/four-potential-drivers-of-crypto-adoption-59be6bf8a75e" className="link" target="_blank" rel="noopener noreferrer">
             Four Potential Drivers of Crypto Adoption (July 2019)
