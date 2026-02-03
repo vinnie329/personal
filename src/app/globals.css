@@ -790,8 +790,7 @@ hr {
 
 .article-header {
   max-width: 640px;
-  margin: 0 auto 48px auto;
-  margin-top: 32px;
+  margin: 32px auto;
   text-align: left;
 }
 
@@ -824,7 +823,7 @@ hr {
   font-size: 16px;
   line-height: 1.65;
   color: #000;
-  margin: 0 0 1.5em 0;
+  margin: 0 0 32px 0;
 }
 
 .article-content p:last-child {
@@ -833,12 +832,12 @@ hr {
 
 .article-content ul {
   list-style: none;
-  margin: 0 0 1.5em 0;
+  margin: 0 0 32px 0;
   padding: 0;
 }
 
 .article-content ul li {
-  margin-bottom: 1.5em;
+  margin-bottom: 32px;
 }
 
 .article-content ul li:last-child {
