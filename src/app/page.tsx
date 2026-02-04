@@ -39,13 +39,13 @@ export default function Home() {
           </a>
         </section>
 
-        {/* Writing Section */}
+        {/* Thoughts Section */}
         <section className="section">
-          <h2 className="section-label">Writing</h2>
-          <a href="/writing/the-global-rules-based-order-is-dead" className="link">
+          <h2 className="section-label">Thoughts</h2>
+          <a href="/thoughts/the-global-rules-based-order-is-dead" className="link">
             The Global Rules-Based Order is Dead (Jan 2026)
           </a>
-          <a href="/writing/one-player-vs-multiplayer-software" className="link">
+          <a href="/thoughts/one-player-vs-multiplayer-software" className="link">
             One-Player vs Multiplayer Software (April 2025)
           </a>
           <a href="https://medium.com/@vinnielive/four-potential-drivers-of-crypto-adoption-59be6bf8a75e" className="link" target="_blank" rel="noopener noreferrer">
