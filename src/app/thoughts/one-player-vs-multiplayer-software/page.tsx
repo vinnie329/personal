@@ -20,16 +20,16 @@ export default function OnePlayerVsMultiplayerSoftware() {
 
       <article className="article-content">
         <p>
-          In a world of abundant super intelligence, is it possible that all one-player software becomes free?  One-player software is software that doesn't have any network effects.
+          In a world of abundant super intelligence, is it possible that all one-player software (software that doesn't have any network effects) becomes free?
         </p>
         <p>
-          We are heading towards a world where anyone in the world will have access to a fleet ai agents that can write software better than the best programmers in the world today. In this world, the cost of producing software likely tends towards zero and every dollar of profit across every conceivable vertical of one-player software will be competed away. Oh you like Notion? Just ask your LLM coding agent of choice to spin up an exact clone. What about Duolingo? All done in seconds.
+          We are heading towards a world where anyone can access a fleet of ai agents that can write software better than the best programmers in the world today. In this world, the cost of producing software likely tends towards zero and every dollar of profit across every conceivable vertical of one-player software could be competed away. Oh you like Notion? Just ask your LLM coding agent of choice to spin up an exact clone. What about Duolingo? All done in seconds.
         </p>
         <p>
-          One-player software that is built on top of some proprietary data (Bloomberg Terminal), has some hardware dependency (health device like an Oura ring), has some regulatory protection / barrier (air traffic control software) or some truly unique brand / product experience likely still has the ability to charge non-zero fees.
+          One-player software that is built on top of some proprietary data (Palantir Foundry), has some hardware dependency (devices like an Oura ring), has some regulatory protection / barrier (air traffic control software) or some truly unique <a href="https://www.youtube.com/watch?v=QdBZY2fkU-0" target="_blank" rel="noopener noreferrer">brand / product experience</a> likely still has the ability to charge non-zero fees.
         </p>
         <p>
-          Otherwise multiplayer software (any software with real network effects) are likely the only pieces of software that have any real durability.
+          Otherwise multiplayer software (any software with real network effects) are likely the only pieces of software that have any real economic durability.
         </p>
       </article>
     </div>
