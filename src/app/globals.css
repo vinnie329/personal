@@ -1,15 +1,5 @@
 /* ============================================
-   GLOBALS.CSS - Your Complete CSS System
-   ============================================
-   
-   This file contains:
-   1. Font Faces
-   2. CSS Variables (colors, spacing, typography)
-   3. CSS Reset (consistent starting point)
-   4. Base Styles (body, headings, links)
-   5. Utility Classes (container, spacing helpers)
-   6. Component Styles (navbar, footer)
-   
+   GLOBALS.CSS
    ============================================ */
 
 /* ============================================
@@ -195,571 +185,495 @@
 }
 
 /* ============================================
-   2. CSS VARIABLES
-   ============================================
-   
-   Variables let you define values once and reuse them.
-   Change a color here, and it updates everywhere.
-   
-   Usage in your CSS: color: var(--color-primary);
+   2. CSS VARIABLES & THEME
    ============================================ */
 
 :root {
-  /* --- COLORS --- */
-  /* Main brand colors - customize these to match your style */
-  --color-primary: #2563eb;        /* Blue - for links, buttons, accents */
-  --color-primary-hover: #1d4ed8;  /* Darker blue for hover states */
-  
-  /* Text colors - for readable contrast */
-  --color-text: #1f2937;           /* Dark gray - main body text */
-  --color-text-light: #6b7280;     /* Medium gray - secondary text */
-  --color-text-inverse: #ffffff;   /* White - text on dark backgrounds */
-  
-  /* Background colors */
-  --color-background: #ffffff;     /* White - main page background */
-  --color-background-alt: #f9fafb; /* Light gray - alternate sections */
-  --color-background-dark: #111827;/* Near black - footer background */
-  
-  /* Border colors */
-  --color-border: #e5e7eb;         /* Light gray - subtle borders */
-  
-  /* --- TYPOGRAPHY --- */
-  /* Font families */
-  --font-sans: 'PP Neue Montreal', system-ui, -apple-system, BlinkMacSystemFont, 
-               'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-mono: 'PP Supply Mono', ui-monospace, SFMono-Regular, 'SF Mono', 
-               Menlo, Consolas, monospace;
-  
-  /* Font sizes - using a modular scale (1.25 ratio) */
-  --text-xs: 0.75rem;    /* 12px - fine print */
-  --text-sm: 0.875rem;   /* 14px - small text */
-  --text-base: 1rem;     /* 16px - body text */
-  --text-lg: 1.125rem;   /* 18px - large body text */
-  --text-xl: 1.25rem;    /* 20px - small headings */
-  --text-2xl: 1.5rem;    /* 24px - h4 */
-  --text-3xl: 1.875rem;  /* 30px - h3 */
-  --text-4xl: 2.25rem;   /* 36px - h2 */
-  --text-5xl: 3rem;      /* 48px - h1 */
-  
-  /* Line heights */
-  --leading-tight: 1.25;  /* For headings */
-  --leading-normal: 1.5;  /* For body text */
-  --leading-relaxed: 1.75;/* For readable paragraphs */
-  
-  /* Font weights */
-  --font-normal: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
-  --font-bold: 700;
-  
-  /* --- SPACING --- */
-  /* Using a consistent scale makes your design feel cohesive */
-  --space-1: 0.25rem;  /* 4px */
-  --space-2: 0.5rem;   /* 8px */
-  --space-3: 0.75rem;  /* 12px */
-  --space-4: 1rem;     /* 16px */
-  --space-5: 1.25rem;  /* 20px */
-  --space-6: 1.5rem;   /* 24px */
-  --space-8: 2rem;     /* 32px */
-  --space-10: 2.5rem;  /* 40px */
-  --space-12: 3rem;    /* 48px */
-  --space-16: 4rem;    /* 64px */
-  --space-20: 5rem;    /* 80px */
-  --space-24: 6rem;    /* 96px */
-  
-  /* --- LAYOUT --- */
-  --max-width: 1200px;         /* Maximum content width */
-  --max-width-narrow: 800px;   /* For blog posts, articles */
-  --border-radius: 0.5rem;     /* 8px - rounded corners */
-  --border-radius-lg: 1rem;    /* 16px - larger rounded corners */
-  
-  /* --- TRANSITIONS --- */
-  --transition-fast: 150ms ease;
-  --transition-normal: 250ms ease;
+  --bg: #f2f2f0;
+  --text: #1a1a1a;
+  --line: #dcdcdc;
+  --accent: #8c8c88;
+  --hover: #eceae7;
+  --surface: #fff;
+  --blue: #2A5BD7;
+  --red: #D93F36;
+  --dark: #333;
+  --beige: #D8D4C5;
+  --font-sans: 'PP Neue Montreal', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'PP Supply Mono', ui-monospace, SFMono-Regular, monospace;
 }
-
 
 /* ============================================
-   2. CSS RESET
-   ============================================
-   
-   This removes default browser styling so everything
-   starts from a consistent baseline.
+   3. RESET
    ============================================ */
 
-/* Use border-box for all elements (padding included in width) */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+html { -moz-text-size-adjust: none; -webkit-text-size-adjust: none; text-size-adjust: none; }
 
-/* Remove default margin and padding */
-* {
-  margin: 0;
-  padding: 0;
-}
-
-/* Prevent font size inflation on mobile */
-html {
-  -moz-text-size-adjust: none;
-  -webkit-text-size-adjust: none;
-  text-size-adjust: none;
-}
-
-/* Smooth scrolling for anchor links */
-html:focus-within {
-  scroll-behavior: smooth;
-}
-
-/* Set core body defaults */
 body {
-  min-height: 100vh;
-  line-height: var(--leading-normal);
   font-family: var(--font-sans);
-  font-size: var(--text-base);
-  color: var(--color-text);
-  background-color: var(--color-background);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Page transition wrapper */
-.page-transition {
+  font-weight: 450;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  position: relative;
   min-height: 100vh;
 }
 
+a { color: inherit; text-decoration: none; }
+img, picture, video, canvas, svg { display: block; max-width: 100%; height: auto; }
+input, button, textarea, select { font: inherit; }
+
+ul[role='list'], ol[role='list'] { list-style: none; }
+
+/* Page transition */
+.page-transition { min-height: 100vh; }
 @media (prefers-reduced-motion: reduce) {
-  .page-transition {
-    transition: none !important;
-  }
+  .page-transition { transition: none !important; }
 }
-
-/* Remove list styles on ul, ol with role="list" */
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-}
-
-/* Make images easier to work with */
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-/* Inherit fonts for form elements */
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-/* Remove animations for people who prefer not to see them */
-@media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-    scroll-behavior: auto;
-  }
-  
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
 
 /* ============================================
-   3. BASE STYLES
-   ============================================
-   
-   Default styling for HTML elements
+   4. NAV
    ============================================ */
 
-/* --- HEADINGS --- */
-h1, h2, h3, h4, h5, h6 {
-  line-height: var(--leading-tight);
-  font-weight: var(--font-bold);
-  color: var(--color-text);
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2.5rem;
+  border-bottom: 1px solid var(--line);
 }
 
-h1 {
-  font-size: var(--text-5xl);
-  margin-bottom: var(--space-6);
-}
-
-h2 {
-  font-size: var(--text-4xl);
-  margin-bottom: var(--space-5);
-}
-
-h3 {
-  font-size: var(--text-3xl);
-  margin-bottom: var(--space-4);
-}
-
-h4 {
-  font-size: var(--text-2xl);
-  margin-bottom: var(--space-3);
-}
-
-/* --- PARAGRAPHS --- */
-p {
-  margin-bottom: var(--space-4);
-  line-height: var(--leading-relaxed);
-}
-
-/* --- LINKS --- */
-a {
-  color: var(--color-primary);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition: color var(--transition-fast);
-}
-
-a:hover {
-  color: var(--color-primary-hover);
-}
-
-/* --- LISTS --- */
-ul, ol {
-  margin-bottom: var(--space-4);
-  padding-left: var(--space-6);
-}
-
-li {
-  margin-bottom: var(--space-2);
-}
-
-/* --- CODE --- */
-code {
+nav .coords {
   font-family: var(--font-mono);
-  font-size: 0.9em;
-  background-color: var(--color-background-alt);
-  padding: var(--space-1) var(--space-2);
-  border-radius: 4px;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  display: flex;
+  gap: 1.5rem;
 }
-
-pre {
-  font-family: var(--font-mono);
-  background-color: var(--color-background-alt);
-  padding: var(--space-4);
-  border-radius: var(--border-radius);
-  overflow-x: auto;
-  margin-bottom: var(--space-4);
-}
-
-pre code {
-  background: none;
-  padding: 0;
-}
-
-/* --- HORIZONTAL RULE --- */
-hr {
-  border: none;
-  border-top: 1px solid var(--color-border);
-  margin: var(--space-8) 0;
-}
-
 
 /* ============================================
-   4. UTILITY CLASSES
-   ============================================
-   
-   Reusable classes you can add to any element
+   5. HERO
    ============================================ */
 
-/* --- CONTAINER --- */
-/* Centers content and sets max-width */
-.container {
+.hero {
+  position: relative;
+  padding: 5rem 2.5rem 6rem;
+  min-height: 480px;
+  cursor: text;
+  caret-color: transparent;
+}
+
+.hero h1 {
+  font-size: clamp(8rem, 8vw, 12rem);
+  font-weight: 450;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  min-height: 1em;
+  overflow-wrap: break-word;
+}
+
+.hero h1 .cursor {
+  display: inline-block;
+  width: 14px;
+  height: 1em;
+  background: var(--text);
+  vertical-align: text-bottom;
+  margin-left: 10px;
+  animation: blink 0.7s step-end infinite;
+  visibility: hidden;
+}
+
+.hero.focused h1 .cursor { visibility: visible; }
+.hero h1 .cursor.at-start { margin-left: 0; }
+.hero h1 .placeholder { color: var(--line); }
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.hero-input {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
   width: 100%;
-  max-width: var(--max-width);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--space-4);
-  padding-right: var(--space-4);
+  height: 0;
 }
-
-/* Narrower container for long-form content */
-.container-narrow {
-  max-width: var(--max-width-narrow);
-}
-
-/* --- TEXT ALIGNMENT --- */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
-
-/* --- TEXT COLORS --- */
-.text-light { color: var(--color-text-light); }
-.text-primary { color: var(--color-primary); }
-
-/* --- SPACING HELPERS --- */
-/* Add these classes to add margin-top to sections */
-.mt-4 { margin-top: var(--space-4); }
-.mt-8 { margin-top: var(--space-8); }
-.mt-12 { margin-top: var(--space-12); }
-.mt-16 { margin-top: var(--space-16); }
-
-.mb-4 { margin-bottom: var(--space-4); }
-.mb-8 { margin-bottom: var(--space-8); }
-.mb-12 { margin-bottom: var(--space-12); }
-.mb-16 { margin-bottom: var(--space-16); }
-
 
 /* ============================================
-   5. LAYOUT COMPONENTS
-   ============================================
-   
-   Styles for the site structure
+   6. DRAGGABLE WIDGETS
    ============================================ */
 
-/* --- PAGE WRAPPER --- */
-/* This creates the sticky footer effect */
-.page-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+.widget {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  z-index: 50;
 }
 
-/* Main content area grows to fill available space */
-.main-content {
-  flex: 1;
-  padding-top: var(--space-12);
-  padding-bottom: var(--space-12);
-}
+.widget:hover { border-color: #ccc; box-shadow: 0 6px 24px rgba(0,0,0,0.06); }
+.widget.dragging { cursor: grabbing; box-shadow: 0 16px 48px rgba(0,0,0,0.10); border-color: #bbb; z-index: 9999; }
 
-/* --- NAVBAR --- */
-.navbar {
-  background-color: var(--color-background);
-  border-bottom: 1px solid var(--color-border);
-  padding: var(--space-4) 0;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.navbar-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.navbar-logo {
-  font-size: var(--text-xl);
-  font-weight: var(--font-bold);
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.navbar-logo:hover {
-  color: var(--color-primary);
-}
-
-.navbar-nav {
-  display: flex;
-  gap: var(--space-6);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar-nav a {
-  color: var(--color-text);
-  text-decoration: none;
-  font-weight: var(--font-medium);
-  transition: color var(--transition-fast);
-}
-
-.navbar-nav a:hover {
-  color: var(--color-primary);
-}
-
-/* --- FOOTER --- */
-.footer {
-  background-color: var(--color-background-dark);
-  color: var(--color-text-inverse);
-  padding: var(--space-12) 0;
-}
-
-.footer-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-}
-
-.footer-text {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: var(--text-sm);
-}
-
-.footer-links {
-  display: flex;
-  gap: var(--space-6);
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.footer-links a {
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  font-size: var(--text-sm);
-  transition: color var(--transition-fast);
-}
-
-.footer-links a:hover {
-  color: var(--color-text-inverse);
-}
-
-
-/* ============================================
-   6. PAGE-SPECIFIC STYLES
-   ============================================
-   
-   Styles for specific pages or sections
-   ============================================ */
-
-/* --- HOME PAGE LAYOUT --- */
-/* Two-column layout: 60% left, 40% right */
-.home-layout {
-  display: flex;
-  min-height: 100vh;
-}
-
-.left-container {
-  width: 60%;
-  padding: 32px;
-}
-
-.right-container {
-  width: 40%;
-  padding: 0;
-}
-
-.site-logo {
-  margin-bottom: 120px;
-}
-
-.intro-text {
-  color: #000;
-  font-feature-settings: 'liga' off, 'clig' off;
-  font-family: 'PP Neue Montreal', sans-serif;
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 48px;
-  margin-bottom: 32px;
-}
-
-.intro-subtext {
-  color: #666666;
-  font-feature-settings: 'liga' off, 'clig' off;
-  font-family: 'PP Neue Montreal', sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px;
-  margin-bottom: 64px;
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  margin-top: 64px;
-}
-
-.section-label {
-  color: #888;
-  font-feature-settings: 'liga' off, 'clig' off;
-  font-family: 'PP Supply Mono', monospace;
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 16px;
-  letter-spacing: 1.5px;
+.widget-header {
+  padding: 10px 14px;
+  font-size: 0.55rem;
   text-transform: uppercase;
-  margin-bottom: 0;
-}
-
-.link {
-  display: inline-flex;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+}
+
+.widget-header .handle {
+  width: 14px;
+  height: 8px;
+  background: repeating-linear-gradient(0deg, var(--line), var(--line) 1px, transparent 1px, transparent 3px);
+}
+
+.widget-body iframe { display: block; border: none; }
+.widget-caption { padding: 8px 14px; font-size: 0.65rem; color: var(--accent); }
+
+.w2 { top: 200px; right: 340px; width: 200px; }
+.w3 { top: 280px; right: 80px; width: 180px; }
+
+/* ============================================
+   7. TOOLBELT
+   ============================================ */
+
+.toolbelt {
+  display: flex;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.tool-cell {
+  flex: 1;
+  padding: 1.2rem 2rem;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
   gap: 8px;
-  color: #000;
-  font-feature-settings: 'liga' off, 'clig' off;
-  font-family: 'PP Neue Montreal', sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px;
-  text-decoration: none;
-  transition: transform 0.2s ease;
 }
 
-.link:hover {
-  color: #000;
-  transform: translateX(16px);
+.tool-cell:last-child { border-right: none; }
+
+.tool-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
 }
 
-.link-icon {
-  width: 16px;
-  height: 16px;
+.tool-controls { display: flex; align-items: center; gap: 10px; }
+
+/* Theme swatches */
+.swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
   flex-shrink: 0;
 }
 
-.link-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
+.swatch:hover { transform: scale(1.15); }
+.swatch.active { box-shadow: 0 0 0 2.5px var(--bg), 0 0 0 4.5px var(--text); }
+
+/* Tool buttons */
+.tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: 50px;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s;
 }
 
-/* --- PROJECT PAGE --- */
+.tool-btn:hover { border-color: var(--accent); }
+.tool-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+.tool-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.tool-btn:disabled:hover { border-color: var(--line); }
+.tool-btn svg { width: 14px; height: 14px; }
+
+/* Sound / Radio controls */
+.sound-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.sound-btn:hover { border-color: var(--accent); }
+.sound-btn.play-btn { width: 30px; height: 30px; }
+.sound-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+.sound-btn svg { width: 12px; height: 12px; }
+.sound-btn.play-btn svg { width: 14px; height: 14px; }
+
+.radio-progress {
+  flex: 1;
+  min-width: 40px;
+  height: 3px;
+  background: var(--line);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+  margin: 0 6px;
+}
+
+.radio-progress-fill {
+  height: 100%;
+  background: var(--text);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.3s linear;
+}
+
+.radio-time {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+.sound-vol {
+  width: 80px;
+  height: 3px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--line);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+.sound-vol::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--text);
+  cursor: pointer;
+}
+
+#yt-wrap {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 2px;
+  height: 2px;
+  overflow: hidden;
+  z-index: -1;
+}
+
+/* ============================================
+   8. SPRAY CANVAS
+   ============================================ */
+
+#spray-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+body.spraying, body.brushing { cursor: crosshair !important; user-select: none; -webkit-user-select: none; }
+body.spraying *, body.brushing * { cursor: crosshair !important; }
+body.spraying .toolbelt, body.brushing .toolbelt { cursor: default !important; }
+body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !important; }
+
+/* ============================================
+   9. WORK TABLE
+   ============================================ */
+
+.work-section { padding: 3rem 2.5rem; }
+.section-title { font-size: 1.6rem; font-weight: 450; letter-spacing: -0.02em; margin-bottom: 2rem; }
+
+.list-header {
+  display: grid;
+  grid-template-columns: 40px 3fr 1.5fr 80px;
+  gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.list-header .col-year { text-align: right; }
+
+.row {
+  display: grid;
+  grid-template-columns: 40px 3fr 1.5fr 80px;
+  gap: 16px;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line);
+  align-items: flex-start;
+  cursor: pointer;
+  transition: background 0.1s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-decoration: none;
+  color: inherit;
+}
+
+.row:last-child { border-bottom: none; }
+
+.row:hover {
+  background: var(--hover);
+  margin: 0 -2.5rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.row-num {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  color: var(--accent);
+  padding-top: 5px;
+}
+
+.marker {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.row-main { padding-right: 2rem; }
+.row-name { font-size: 1rem; font-weight: 500; margin-bottom: 4px; transition: color 0.1s; }
+.row:hover .row-name { color: var(--bg); }
+.row-desc { font-size: 0.8rem; color: #888; padding-left: 22px; }
+.row-year { font-size: 0.85rem; text-align: right; }
+.row-year .sub { font-size: 0.55rem; color: var(--accent); text-transform: uppercase; display: block; margin-top: 2px; }
+
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.tag {
+  border: 1px solid var(--line);
+  border-radius: 50px;
+  padding: 3px 10px;
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.tag.action { border-color: var(--text); color: var(--text); font-weight: 600; }
+.tag.action:hover { background: var(--text); color: var(--bg); }
+
+.bg-blue { background: var(--blue); }
+.bg-red { background: var(--red); }
+.bg-dark { background: var(--dark); }
+.bg-beige { background: var(--beige); }
+
+/* ============================================
+   10. BOTTOM STRIP
+   ============================================ */
+
+.bottom-strip {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  border-top: 1px solid var(--line);
+}
+
+.bottom-left { padding: 2.5rem; border-right: 1px solid var(--line); }
+.bottom-right { padding: 2.5rem; }
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.thought-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.15s;
+}
+
+.thought-row:last-child { border-bottom: none; }
+.thought-title { font-size: 0.9rem; }
+.thought-date { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); }
+
+.link-item {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 0.4rem 0;
+  transition: color 0.15s;
+}
+
+.link-item:hover { color: var(--text); }
+
+/* ============================================
+   11. PROJECT PAGE
+   ============================================ */
+
 .project-page {
   min-height: 100vh;
-  background-color: #fff;
-  padding: 32px;
+  background: var(--bg);
+  padding: 2.5rem;
 }
 
-.project-logo {
-  margin-bottom: 32px;
-}
+.project-logo { margin-bottom: 2rem; }
 
 .project-header {
   display: flex;
   justify-content: center;
-  margin-bottom: 64px;
-  margin-top: 32px;
+  margin-bottom: 3rem;
+  margin-top: 2rem;
 }
 
-.project-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.project-title { display: flex; align-items: center; gap: 12px; }
 
 .project-title h1 {
-  font-size: 16px;
-  font-weight: 500;
-  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 1rem;
+  font-weight: 450;
+  font-family: var(--font-sans);
   margin: 0;
-}
-
-.project-external-link {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
+  line-height: 1.25;
 }
 
 .project-content {
@@ -771,115 +685,94 @@ hr {
   margin: 0 auto;
 }
 
-.project-image {
+.project-image-wrapper {
   width: 100%;
   max-width: 2000px;
-  height: auto;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1a1a1a;
 }
 
-/* --- ARTICLE / WRITING PAGE --- */
+.project-image { width: 100%; height: auto; display: block; }
+
+/* ============================================
+   12. ARTICLE PAGE
+   ============================================ */
+
 .article-page {
   min-height: 100vh;
-  background-color: #fff;
-  padding: 32px;
+  background: var(--bg);
+  padding: 2.5rem;
 }
 
-.article-logo {
-  margin-bottom: 32px;
-}
+.article-logo { margin-bottom: 2rem; }
 
 .article-header {
   max-width: 640px;
-  margin: 32px auto;
+  margin: 2rem auto;
   text-align: left;
 }
 
 .article-title {
-  font-size: 24px;
-  font-weight: 500;
-  font-family: 'PP Neue Montreal', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 450;
+  font-family: var(--font-sans);
   margin: 0 0 8px 0;
   line-height: 1.3;
 }
 
 .article-date {
   display: block;
-  font-family: 'PP Supply Mono', monospace;
-  font-size: 11px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
   font-weight: 500;
-  letter-spacing: 1.5px;
-  color: #888;
+  letter-spacing: 0.12em;
+  color: var(--accent);
   line-height: 16px;
   text-transform: uppercase;
 }
 
-.article-content {
-  max-width: 640px;
-  margin: 0 auto;
-}
+.article-content { max-width: 640px; margin: 0 auto; }
 
 .article-content p {
-  font-family: 'PP Neue Montreal', sans-serif;
-  font-size: 16px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
   line-height: 1.65;
-  color: #000;
-  margin: 0 0 32px 0;
+  color: var(--text);
+  margin: 0 0 2rem 0;
 }
 
-.article-content p:last-child {
-  margin-bottom: 0;
-}
+.article-content p:last-child { margin-bottom: 0; }
 
 .article-content ul {
   list-style: none;
-  margin: 0 0 32px 0;
+  margin: 0 0 2rem 0;
   padding: 0;
 }
 
-.article-content ul li {
-  margin-bottom: 32px;
-}
+.article-content ul li { margin-bottom: 2rem; }
+.article-content ul li:last-child { margin-bottom: 0; }
+.article-content ul li strong { display: block; font-weight: 600; margin-bottom: 0.5em; }
+.article-content ul li p { margin: 0; }
 
-.article-content ul li:last-child {
-  margin-bottom: 0;
-}
+.article-content a { color: #FF4D00; text-decoration: underline; }
+.article-content a:hover { opacity: 0.7; }
 
-.article-content ul li strong {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 0.5em;
-}
+/* ============================================
+   13. IMAGE MODAL
+   ============================================ */
 
-.article-content ul li p {
-  margin: 0;
-}
-
-.article-content a {
-  color: #FF4D00;
-  text-decoration: underline;
-}
-
-.article-content a:hover {
-  opacity: 0.7;
-}
-
-/* --- IMAGE MODAL --- */
 .image-modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #fff;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--bg);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 32px;
   cursor: pointer;
-  opacity: 1;
 }
-
 
 .image-modal-content {
   position: relative;
@@ -901,94 +794,50 @@ hr {
 
 .image-modal-close {
   position: fixed;
-  top: 32px;
-  right: 32px;
+  top: 32px; right: 32px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1001;
-  opacity: 1;
 }
 
-.image-modal-close img {
-  width: 24px;
-  height: 24px;
-  display: block;
-}
-
-.image-modal-close:hover {
-  opacity: 0.7;
-}
-
-/* --- HERO SECTION --- */
-/* A large intro section, commonly used on homepages */
-.hero {
-  padding: var(--space-16) 0;
-  text-align: center;
-}
-
-.hero h1 {
-  margin-bottom: var(--space-4);
-}
-
-.hero p {
-  font-size: var(--text-lg);
-  color: var(--color-text-light);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* --- SECTION --- */
-/* Use for distinct page sections */
-
-.section-alt {
-  background-color: var(--color-background-alt);
-}
-
+.image-modal-close img { width: 24px; height: 24px; display: block; }
+.image-modal-close:hover { opacity: 0.7; }
 
 /* ============================================
-   7. RESPONSIVE DESIGN
-   ============================================
-   
-   Adjustments for different screen sizes
+   14. RESPONSIVE
    ============================================ */
 
-/* Below 960px - hide right container */
 @media (max-width: 960px) {
-  .right-container {
-    display: none;
-  }
-  
-  .left-container {
-    width: 100%;
-  }
+  .hero { padding: 3rem 1.5rem 4rem; min-height: 300px; }
+  .hero h1 { font-size: clamp(4rem, 10vw, 8rem); }
+  .toolbelt { flex-wrap: wrap; }
+  .tool-cell { flex: 1 1 50%; min-width: 200px; }
+  .work-section { padding: 2rem 1.5rem; }
+  .row { grid-template-columns: 30px 1fr 80px; }
+  .row .tags { display: none; }
+  .list-header { grid-template-columns: 30px 1fr 80px; }
+  .list-header .tags-col { display: none; }
+  nav { padding: 1rem 1.5rem; }
+  .widget { display: none; }
+  .bottom-strip { grid-template-columns: 1fr; }
+  .bottom-left { border-right: none; border-bottom: 1px solid var(--line); }
 }
 
-/* Tablet and below (768px) */
-@media (max-width: 768px) {
-  :root {
-    --text-5xl: 2.25rem;  /* Smaller h1 on mobile */
-    --text-4xl: 1.875rem; /* Smaller h2 on mobile */
-  }
-  
-  .navbar-inner {
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-  
-  .footer-inner {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .hero {
-    padding: var(--space-10) 0;
-  }
+@media (max-width: 600px) {
+  .hero { padding: 2rem 1rem 3rem; min-height: 200px; }
+  .hero h1 { font-size: clamp(3rem, 12vw, 5rem); }
+  .tool-cell { flex: 1 1 100%; border-right: none; border-bottom: 1px solid var(--line); }
+  .tool-cell:last-child { border-bottom: none; }
+  .work-section { padding: 1.5rem 1rem; }
+  .row { grid-template-columns: 1fr; gap: 8px; }
+  .row-num, .row-year { display: none; }
+  .list-header { display: none; }
+  nav { padding: 1rem; }
+  .bottom-left, .bottom-right { padding: 1.5rem 1rem; }
 }

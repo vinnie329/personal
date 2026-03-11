@@ -2,18 +2,19 @@ import Link from 'next/link';
 import Logo from '@/components/Logo';
 
 const IMAGES = [
-  '01-home.png',
-  '02-catalogue.png',
-  '03-mobile-home-catalogue.png',
-  '04-vault.png',
-  '05-vault-scrolled.png',
-  '06-deposit.png',
-  '07-mobile-vault.png',
-  '08-rbn-rewards.png',
-  '09-claiming-rbn.png',
-  '10-rbn-claimed.png',
-  '11-referrals.png',
-  '12-mobile-loading.png',
+  'home.png',
+  'catalogue.png',
+  'mobile-home-catalogue.png',
+  'vault.png',
+  'vault-scrolled.png',
+  'deposit.png',
+  'mobile-vault.png',
+  'rbn-rewards.png',
+  'claiming-rbn.png',
+  'rbn-claimed.png',
+  'referrals.png',
+  'mobile-loading.png',
+  'derebit.png',
 ];
 
 export default function RibbonLend() {
@@ -31,12 +32,13 @@ export default function RibbonLend() {
 
       <main className="project-content">
         {IMAGES.map((imageName) => (
-          <img
-            key={imageName}
-            src={`/projects/ribbon-lend/${imageName}`}
-            alt={`Ribbon Lend ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
-            className="project-image"
-          />
+          <div key={imageName} className="project-image-wrapper">
+            <img
+              src={`/projects/ribbon-lend/${imageName}`}
+              alt={`Ribbon Lend ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
+              className="project-image"
+            />
+          </div>
         ))}
       </main>
     </div>

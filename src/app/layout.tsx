@@ -1,10 +1,3 @@
-/**
- * ROOT LAYOUT
- * 
- * This file wraps every page on your site.
- * The {children} is where each page's content appears.
- */
-
 import type { Metadata } from 'next';
 import './globals.css';
 import PageTransition from '@/components/PageTransition';

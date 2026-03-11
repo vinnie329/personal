@@ -2,15 +2,14 @@ import Link from 'next/link';
 import Logo from '@/components/Logo';
 
 const IMAGES = [
-  '01-otc-pending-order.png',
-  '02-payoff.png',
-  '03-strike-selection.png',
-  '04-pending-order.png',
-  '05-order-filled.png',
-  '06-order-not-filled.png',
-  '07-portfolio.png',
-  '08-positin-modal.png',
-  '09-expiry-selection-active.png',
+  'otc-pending-order.png',
+  'payoff.png',
+  'strike-selection.png',
+  'pending-order.png',
+  'order-filled.png',
+  'portfolio.png',
+  'positin-modal.png',
+  'expiry-selection-active.png',
 ];
 
 export default function AevoOtc() {
@@ -28,12 +27,13 @@ export default function AevoOtc() {
 
       <main className="project-content">
         {IMAGES.map((imageName) => (
-          <img
-            key={imageName}
-            src={`/projects/aevo-otc/${imageName}`}
-            alt={`Aevo OTC ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
-            className="project-image"
-          />
+          <div key={imageName} className="project-image-wrapper">
+            <img
+              src={`/projects/aevo-otc/${imageName}`}
+              alt={`Aevo OTC ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
+              className="project-image"
+            />
+          </div>
         ))}
       </main>
     </div>

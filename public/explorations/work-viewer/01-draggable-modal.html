@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Viewer — Draggable Modal</title>
+<style>
+  :root { --bg: #f2f2f0; --text: #1a1a1a; --line: #dcdcdc; --accent: #8c8c88; --hover: #eceae7; --surface: #fff; --blue: #2A5BD7; --red: #D93F36; --dark: #333; --beige: #D8D4C5; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 0.9rem; line-height: 1.5; min-height: 100vh; }
+
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2.5rem; border-bottom: 1px solid var(--line); }
+  nav .coords { font-size: 0.65rem; letter-spacing: 0.08em; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  .work-section { padding: 3rem 2.5rem; }
+  .section-title { font-size: 1.6rem; font-weight: 450; letter-spacing: -0.02em; margin-bottom: 2rem; }
+  .list-header { display: grid; grid-template-columns: 40px 3fr 1.5fr 80px; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+  .list-header .col-year { text-align: right; }
+
+  .row { display: grid; grid-template-columns: 40px 3fr 1.5fr 80px; gap: 16px; padding: 1.5rem 0; border-bottom: 1px solid var(--line); align-items: flex-start; cursor: pointer; transition: background 0.1s; }
+  .row:last-child { border-bottom: none; }
+  .row:hover { background: var(--hover); margin: 0 -2.5rem; padding-left: 2.5rem; padding-right: 2.5rem; }
+  .row-num { font-variant-numeric: tabular-nums; font-size: 0.85rem; color: var(--accent); padding-top: 5px; }
+  .marker { width: 12px; height: 12px; display: inline-block; vertical-align: middle; margin-right: 10px; }
+  .row-main { padding-right: 2rem; }
+  .row-name { font-size: 1rem; font-weight: 500; margin-bottom: 4px; transition: color 0.1s; }
+  .row:hover .row-name { color: var(--bg); }
+  .row-desc { font-size: 0.8rem; color: #888; padding-left: 22px; }
+  .row-year { font-size: 0.85rem; text-align: right; }
+  .row-year .sub { font-size: 0.55rem; color: var(--accent); text-transform: uppercase; display: block; margin-top: 2px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { border: 1px solid var(--line); border-radius: 50px; padding: 3px 10px; font-size: 0.55rem; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+
+  .bg-blue { background: var(--blue); }
+  .bg-red { background: var(--red); }
+  .bg-dark { background: var(--dark); }
+  .bg-beige { background: var(--beige); }
+
+  /* Modal overlay */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: all; }
+
+  /* Draggable modal widget */
+  .modal-widget {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 820px;
+    max-width: 90vw;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 1001;
+    cursor: grab;
+    user-select: none;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.15);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, box-shadow 0.2s;
+  }
+  .modal-widget.active { opacity: 1; pointer-events: all; }
+  .modal-widget.dragging { cursor: grabbing; box-shadow: 0 32px 100px rgba(0,0,0,0.2); }
+
+  .modal-header {
+    padding: 12px 18px;
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-header .handle { width: 14px; height: 8px; background: repeating-linear-gradient(0deg, var(--line), var(--line) 1px, transparent 1px, transparent 3px); }
+  .modal-close {
+    width: 22px; height: 22px; border: 1px solid var(--line); border-radius: 50%;
+    background: transparent; color: var(--accent); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; transition: border-color 0.15s, color 0.15s;
+  }
+  .modal-close:hover { border-color: var(--text); color: var(--text); }
+
+  .modal-body {
+    position: relative;
+    background: #1a1a1a;
+    aspect-ratio: 16/10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .modal-body img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: opacity 0.2s ease;
+  }
+
+  .modal-nav {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, border-color 0.15s;
+    z-index: 2;
+  }
+  .modal-nav:hover { background: rgba(0,0,0,0.7); border-color: rgba(255,255,255,0.4); }
+  .modal-nav.prev { left: 12px; }
+  .modal-nav.next { right: 12px; }
+  .modal-nav svg { width: 14px; height: 14px; }
+
+  .modal-footer {
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+  }
+
+  .modal-caption { font-size: 0.7rem; color: var(--accent); }
+  .modal-pagination { display: flex; gap: 5px; align-items: center; }
+  .modal-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--line); transition: background 0.2s, transform 0.2s;
+  }
+  .modal-dot.active { background: var(--text); transform: scale(1.3); }
+  .modal-counter { font-size: 0.6rem; color: var(--accent); font-variant-numeric: tabular-nums; margin-left: 10px; }
+</style>
+</head>
+<body>
+  <nav>
+    <svg width="48" height="32" viewBox="0 0 60 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M40 0C51.0457 0 60 8.9543 60 20C60 31.0457 51.0457 40 40 40C36.3569 40 32.9418 39.0251 30 37.3232C27.0582 39.0251 23.6431 40 20 40C8.9543 40 0 31.0457 0 20C0 8.9543 8.9543 0 20 0C23.6429 0 27.0583 0.974059 30 2.67578C32.9417 0.974059 36.3571 0 40 0ZM20 4C11.1634 4 4 11.1634 4 20C4 28.8366 11.1634 36 20 36C22.2771 36 24.4424 35.5225 26.4033 34.665C22.4655 31.0124 20 25.7946 20 20C20 14.2051 22.4652 8.98664 26.4033 5.33398C24.4424 4.47664 22.277 4 20 4ZM40 4C37.7227 4 35.5568 4.47642 33.5957 5.33398C37.5341 8.98667 40 14.2049 40 20C40 25.7949 37.5338 31.0124 33.5957 34.665C35.5569 35.5227 37.7226 36 40 36C48.8366 36 56 28.8366 56 20C56 11.1634 48.8366 4 40 4ZM30 7.50977C26.3423 10.442 24 14.9473 24 20C24 25.0524 26.3426 29.557 30 32.4893C33.6574 29.557 36 25.0524 36 20C36 14.9473 33.6577 10.442 30 7.50977Z" fill="currentColor"/></svg>
+    <div class="coords">Work Viewer Exploration</div>
+  </nav>
+
+  <div class="work-section">
+    <h2 class="section-title">Selected Work</h2>
+    <div class="list-header"><div>NO.</div><div>PROJECT</div><div>TAGS</div><div class="col-year">YEAR</div></div>
+    <div class="row" data-project="aevo-perps"><div class="row-num">01</div><div class="row-main"><div class="row-name"><span class="marker bg-dark"></span>Aevo &mdash; Perps & Options Exchange</div><div class="row-desc">High-performance derivatives trading interface for a decentralized exchange.</div></div><div class="tags"><span class="tag">#DEFI</span><span class="tag">#TRADING</span></div><div class="row-year">2024 <span class="sub">Shipped</span></div></div>
+    <div class="row" data-project="aevo-otc"><div class="row-num">02</div><div class="row-main"><div class="row-name"><span class="marker bg-beige"></span>Aevo &mdash; OTC Altcoin Options</div><div class="row-desc">Over-the-counter options trading settled onchain for institutional participants.</div></div><div class="tags"><span class="tag">#OPTIONS</span><span class="tag">#ONCHAIN</span></div><div class="row-year">2024 <span class="sub">Shipped</span></div></div>
+    <div class="row" data-project="ribbon-finance"><div class="row-num">03</div><div class="row-main"><div class="row-name"><span class="marker bg-red"></span>Ribbon Finance &mdash; Options Vaults</div><div class="row-desc">DeFi's first structured products for automated on-chain yield generation.</div></div><div class="tags"><span class="tag">#DEFI</span><span class="tag">#VAULTS</span></div><div class="row-year">2022 <span class="sub">Shipped</span></div></div>
+    <div class="row" data-project="ribbon-lend"><div class="row-num">04</div><div class="row-main"><div class="row-name"><span class="marker bg-blue"></span>Ribbon Lend &mdash; Unsecured Lending</div><div class="row-desc">Lending to KYC/AML verified institutional market makers.</div></div><div class="tags"><span class="tag">#LENDING</span><span class="tag">#INSTITUTIONAL</span></div><div class="row-year">2023 <span class="sub">Shipped</span></div></div>
+  </div>
+
+  <!-- Modal overlay -->
+  <div class="modal-overlay" id="modal-overlay"></div>
+
+  <!-- Draggable modal -->
+  <div class="modal-widget" id="modal-widget">
+    <div class="modal-header">
+      <span id="modal-title">Project</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="handle"></div>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <button class="modal-nav prev" id="nav-prev"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 2 4 7 9 12"/></svg></button>
+      <img id="modal-img" src="" alt="" />
+      <button class="modal-nav next" id="nav-next"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 2 10 7 5 12"/></svg></button>
+    </div>
+    <div class="modal-footer">
+      <span class="modal-caption" id="modal-caption"></span>
+      <div style="display:flex;align-items:center;">
+        <div class="modal-pagination" id="modal-dots"></div>
+        <span class="modal-counter" id="modal-counter"></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const projects = {
+      'aevo-perps': {
+        title: 'Aevo \u2014 Perps & Options Exchange',
+        images: ['perps-trading-price-chart.png','perps-trading-depth-chart.png','options-trading-options-chain.png','options-trading-options-chain-1.png','options-trading-trade-history.png','portfolio-convert-modal-typing.png','strategies.png','airdrops.png','rbn-to-aevo.png','cmd-k.png','mobile-trading.png']
+      },
+      'aevo-otc': {
+        title: 'Aevo \u2014 OTC Altcoin Options',
+        images: ['otc-pending-order.png','payoff.png','strike-selection.png','pending-order.png','order-filled.png','portfolio.png','positin-modal.png','expiry-selection-active.png']
+      },
+      'ribbon-finance': {
+        title: 'Ribbon Finance \u2014 Options Vaults',
+        images: ['01-vault.png','02-catalogue-grid.png','03-catalogue-carousel.png','04-mobile-vault.png','05-vault-scroll.png','06-payoff.png','07-vault-activity.png','08-rbn-claim.png','09-rbn-claiming.png','10-rbn-claimed.png','11-staking.png','12-rewards-calc.png']
+      },
+      'ribbon-lend': {
+        title: 'Ribbon Lend \u2014 Unsecured Lending',
+        images: ['home.png','catalogue.png','mobile-home-catalogue.png','vault.png','vault-scrolled.png','deposit.png','mobile-vault.png','rbn-rewards.png','claiming-rbn.png','rbn-claimed.png','referrals.png','mobile-loading.png','derebit.png']
+      }
+    };
+
+    const overlay = document.getElementById('modal-overlay');
+    const widget = document.getElementById('modal-widget');
+    const modalImg = document.getElementById('modal-img');
+    const modalTitle = document.getElementById('modal-title');
+    const modalCaption = document.getElementById('modal-caption');
+    const modalDots = document.getElementById('modal-dots');
+    const modalCounter = document.getElementById('modal-counter');
+    const closeBtn = document.getElementById('modal-close');
+    const prevBtn = document.getElementById('nav-prev');
+    const nextBtn = document.getElementById('nav-next');
+
+    let current = { project: null, index: 0, images: [] };
+
+    function openModal(projectKey) {
+      const p = projects[projectKey];
+      if (!p) return;
+      current.project = projectKey;
+      current.images = p.images;
+      current.index = 0;
+      modalTitle.textContent = p.title;
+
+      // Reset position to center
+      widget.style.left = '50%';
+      widget.style.top = '50%';
+      widget.style.transform = 'translate(-50%, -50%)';
+      positioned = false;
+
+      renderImage();
+      overlay.classList.add('active');
+      widget.classList.add('active');
+    }
+
+    function closeModal() {
+      overlay.classList.remove('active');
+      widget.classList.remove('active');
+    }
+
+    function renderImage() {
+      const img = current.images[current.index];
+      const path = '/projects/' + current.project + '/' + img;
+      modalImg.src = path;
+      modalImg.alt = img.replace(/-/g, ' ').replace('.png', '');
+      modalCaption.textContent = img.replace(/-/g, ' ').replace('.png', '').replace(/^\d+-?\s*/, '');
+      modalCounter.textContent = (current.index + 1) + ' / ' + current.images.length;
+
+      // Dots
+      modalDots.innerHTML = '';
+      current.images.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'modal-dot' + (i === current.index ? ' active' : '');
+        dot.addEventListener('click', (e) => { e.stopPropagation(); current.index = i; renderImage(); });
+        modalDots.appendChild(dot);
+      });
+    }
+
+    function go(dir) {
+      current.index = (current.index + dir + current.images.length) % current.images.length;
+      renderImage();
+    }
+
+    // Row clicks
+    document.querySelectorAll('.row[data-project]').forEach(row => {
+      row.addEventListener('click', () => openModal(row.dataset.project));
+    });
+
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeModal(); });
+    overlay.addEventListener('click', closeModal);
+    prevBtn.addEventListener('click', (e) => { e.stopPropagation(); go(-1); });
+    nextBtn.addEventListener('click', (e) => { e.stopPropagation(); go(1); });
+
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+      if (!widget.classList.contains('active')) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') go(-1);
+      if (e.key === 'ArrowRight') go(1);
+    });
+
+    // Draggable
+    let isDragging = false, startX, startY, origX, origY, positioned = false;
+
+    widget.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.modal-nav') || e.target.closest('.modal-close') || e.target.closest('.modal-dot')) return;
+      isDragging = true;
+      widget.classList.add('dragging');
+      startX = e.clientX;
+      startY = e.clientY;
+
+      if (!positioned) {
+        const rect = widget.getBoundingClientRect();
+        widget.style.left = rect.left + 'px';
+        widget.style.top = rect.top + 'px';
+        widget.style.transform = 'none';
+        positioned = true;
+      }
+
+      origX = parseInt(widget.style.left);
+      origY = parseInt(widget.style.top);
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      widget.style.left = (origX + e.clientX - startX) + 'px';
+      widget.style.top = (origY + e.clientY - startY) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      widget.classList.remove('dragging');
+    });
+  </script>
+</body>
+</html>

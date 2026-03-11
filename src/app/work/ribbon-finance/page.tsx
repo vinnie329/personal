@@ -2,18 +2,18 @@ import Link from 'next/link';
 import Logo from '@/components/Logo';
 
 const IMAGES = [
-  '01-vault.png',
-  '02-catalogue-grid.png',
-  '03-catalogue-carousel.png',
-  '04-mobile-vault.png',
-  '05-vault-scroll.png',
-  '06-payoff.png',
-  '07-vault-activity.png',
-  '08-rbn-claim.png',
-  '09-rbn-claiming.png',
-  '10-rbn-claimed.png',
-  '11-staking.png',
-  '12-rewards-calc.png',
+  'vault.png',
+  'catalogue-grid.png',
+  'catalogue-carousel.png',
+  'mobile-vault.png',
+  'vault-scroll.png',
+  'payoff.png',
+  'vault-activity.png',
+  'rbn-claim.png',
+  'rbn-claiming.png',
+  'rbn-claimed.png',
+  'staking.png',
+  'rewards-calc.png',
 ];
 
 export default function RibbonFinance() {
@@ -31,12 +31,13 @@ export default function RibbonFinance() {
 
       <main className="project-content">
         {IMAGES.map((imageName) => (
-          <img
-            key={imageName}
-            src={`/projects/ribbon-finance/${imageName}`}
-            alt={`Ribbon Finance ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
-            className="project-image"
-          />
+          <div key={imageName} className="project-image-wrapper">
+            <img
+              src={`/projects/ribbon-finance/${imageName}`}
+              alt={`Ribbon Finance ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
+              className="project-image"
+            />
+          </div>
         ))}
       </main>
     </div>

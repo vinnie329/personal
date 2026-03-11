@@ -30,12 +30,13 @@ export default function AevoPerps() {
           'cmd-k.png',
           'mobile-trading.png',
         ].map((imageName) => (
-          <img
-            key={imageName}
-            src={`/projects/aevo-perps/${imageName}`}
-            alt={`Aevo ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
-            className="project-image"
-          />
+          <div key={imageName} className="project-image-wrapper">
+            <img
+              src={`/projects/aevo-perps/${imageName}`}
+              alt={`Aevo ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
+              className="project-image"
+            />
+          </div>
         ))}
       </main>
     </div>
