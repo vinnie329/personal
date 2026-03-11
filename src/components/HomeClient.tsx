@@ -26,10 +26,10 @@ const FRUITS = ['\u{1F34A}','\u{1F34B}','\u{1F34E}','\u{1F347}','\u{1F353}','\u{
 
 // ── Work data ──
 const WORK_ITEMS = [
-  { num: '01', name: 'Aevo \u2014 Perps & Options Exchange', desc: 'High-performance derivatives trading interface for a decentralized exchange.', tags: ['#DEFI', '#TRADING'], year: '2024', sub: 'Shipped', color: 'bg-dark', href: '/work/aevo-perps' },
-  { num: '02', name: 'Aevo \u2014 OTC Altcoin Options', desc: 'Over-the-counter options trading settled onchain for institutional participants.', tags: ['#OPTIONS', '#ONCHAIN'], year: '2024', sub: 'Shipped', color: 'bg-beige', href: '/work/aevo-otc' },
-  { num: '03', name: 'Ribbon Finance \u2014 Options Vaults', desc: "DeFi's first structured products for automated on-chain yield generation.", tags: ['#DEFI', '#VAULTS'], year: '2022', sub: 'Shipped', color: 'bg-red', href: '/work/ribbon-finance' },
-  { num: '04', name: 'Ribbon Lend \u2014 Unsecured Lending', desc: 'Lending to KYC/AML verified institutional market makers.', tags: ['#LENDING', '#INSTITUTIONAL'], year: '2023', sub: 'Shipped', color: 'bg-blue', href: '/work/ribbon-lend' },
+  { num: '01', key: 'aevo-perps', name: 'Aevo \u2014 Perps & Options Exchange', desc: 'High-performance derivatives trading interface for a decentralized exchange.', tags: ['#DEFI', '#TRADING'], year: '2024', sub: 'Shipped', color: 'bg-dark', images: ['perps-trading-price-chart.png','perps-trading-depth-chart.png','options-trading-options-chain.png','options-trading-options-chain-1.png','options-trading-trade-history.png','portfolio-convert-modal-typing.png','strategies.png','airdrops.png','rbn-to-aevo.png','cmd-k.png','mobile-trading.png'] },
+  { num: '02', key: 'aevo-otc', name: 'Aevo \u2014 OTC Altcoin Options', desc: 'Over-the-counter options trading settled onchain for institutional participants.', tags: ['#OPTIONS', '#ONCHAIN'], year: '2024', sub: 'Shipped', color: 'bg-beige', images: ['otc-pending-order.png','payoff.png','strike-selection.png','pending-order.png','order-filled.png','portfolio.png','positin-modal.png','expiry-selection-active.png'] },
+  { num: '03', key: 'ribbon-finance', name: 'Ribbon Finance \u2014 Options Vaults', desc: "DeFi's first structured products for automated on-chain yield generation.", tags: ['#DEFI', '#VAULTS'], year: '2022', sub: 'Shipped', color: 'bg-red', images: ['vault.png','catalogue-grid.png','catalogue-carousel.png','mobile-vault.png','vault-scroll.png','payoff.png','vault-activity.png','rbn-claim.png','rbn-claiming.png','rbn-claimed.png','staking.png','rewards-calc.png'] },
+  { num: '04', key: 'ribbon-lend', name: 'Ribbon Lend \u2014 Unsecured Lending', desc: 'Lending to KYC/AML verified institutional market makers.', tags: ['#LENDING', '#INSTITUTIONAL'], year: '2023', sub: 'Shipped', color: 'bg-blue', images: ['home.png','catalogue.png','mobile-home-catalogue.png','vault.png','vault-scrolled.png','deposit.png','mobile-vault.png','rbn-rewards.png','claiming-rbn.png','rbn-claimed.png','referrals.png','mobile-loading.png','derebit.png'] },
 ];
 
 const THOUGHTS = [
@@ -89,6 +89,13 @@ export default function HomeClient() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [radioTime, setRadioTime] = useState({ current: '0:00', duration: '0:00', pct: 0 });
   const ytPlayerRef = useRef<any>(null);
+
+  // ── Work modal state ──
+  const [modalProject, setModalProject] = useState<typeof WORK_ITEMS[0] | null>(null);
+  const [modalIndex, setModalIndex] = useState(0);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const modalHeaderRef = useRef<HTMLDivElement>(null);
+  const modalPositionedRef = useRef(false);
 
   // ── Widget drag state ──
   const widgetRefs = useRef<Map<string, { el: HTMLDivElement; promoted: boolean }>>(new Map());
@@ -465,6 +472,76 @@ export default function HomeClient() {
     if (dur > 0) p.seekTo(pct * dur, true);
   };
 
+  // ── Work modal handlers ──
+  const openModal = (item: typeof WORK_ITEMS[0]) => {
+    setModalProject(item);
+    setModalIndex(0);
+    modalPositionedRef.current = false;
+    // Reset position to center
+    setTimeout(() => {
+      const el = modalRef.current;
+      if (el) {
+        el.style.left = '50%';
+        el.style.top = '50%';
+        el.style.transform = 'translate(-50%, -50%)';
+      }
+    }, 0);
+  };
+
+  const closeModal = () => setModalProject(null);
+
+  const modalGo = (dir: number) => {
+    if (!modalProject) return;
+    setModalIndex(prev => (prev + dir + modalProject.images.length) % modalProject.images.length);
+  };
+
+  // Modal keyboard nav
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (!modalProject) return;
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'ArrowLeft') modalGo(-1);
+      if (e.key === 'ArrowRight') modalGo(1);
+    }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  });
+
+  // Modal drag
+  const handleModalDrag = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('.modal-close')) return;
+    const widget = modalRef.current;
+    if (!widget) return;
+    e.preventDefault();
+
+    if (!modalPositionedRef.current) {
+      const rect = widget.getBoundingClientRect();
+      widget.style.left = rect.left + 'px';
+      widget.style.top = rect.top + 'px';
+      widget.style.transform = 'none';
+      modalPositionedRef.current = true;
+    }
+
+    widget.classList.add('dragging');
+    const origLeft = parseInt(widget.style.left);
+    const origTop = parseInt(widget.style.top);
+    const startX = e.clientX;
+    const startY = e.clientY;
+
+    function onMove(ev: MouseEvent) {
+      widget!.style.left = (origLeft + ev.clientX - startX) + 'px';
+      widget!.style.top = (origTop + ev.clientY - startY) + 'px';
+    }
+    function onUp() {
+      widget!.classList.remove('dragging');
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  };
+
   // ── Hero rendering ──
   const displayText = scrambleDisplay !== null ? scrambleDisplay : heroText;
   const renderHero = () => {
@@ -679,7 +756,7 @@ export default function HomeClient() {
           <div className="col-year">YEAR</div>
         </div>
         {WORK_ITEMS.map((item) => (
-          <Link key={item.num} href={item.href} className="row">
+          <div key={item.num} className="row" onClick={() => openModal(item)}>
             <div className="row-num">{item.num}</div>
             <div className="row-main">
               <div className="row-name"><span className={`marker ${item.color}`} />{item.name}</div>
@@ -689,7 +766,7 @@ export default function HomeClient() {
               {item.tags.map(t => <span key={t} className="tag">{t}</span>)}
             </div>
             <div className="row-year">{item.year} <span className="sub">{item.sub}</span></div>
-          </Link>
+          </div>
         ))}
       </div>
 
@@ -720,6 +797,42 @@ export default function HomeClient() {
           ))}
         </div>
       </div>
+
+      {/* Work Modal */}
+      {modalProject && (
+        <div className={`work-modal${modalProject ? ' active' : ''}`} ref={modalRef}>
+          <div className="work-modal-header" ref={modalHeaderRef} onMouseDown={handleModalDrag}>
+            <span>{modalProject.name}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div className="handle" />
+              <button className="work-modal-close" onClick={closeModal}>&times;</button>
+            </div>
+          </div>
+          <div className="work-modal-body">
+            <button className="work-modal-nav prev" onClick={() => modalGo(-1)}>
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 2 4 7 9 12"/></svg>
+            </button>
+            <img
+              src={`/projects/${modalProject.key}/${modalProject.images[modalIndex]}`}
+              alt={modalProject.images[modalIndex].replace(/-/g, ' ').replace('.png', '')}
+            />
+            <button className="work-modal-nav next" onClick={() => modalGo(1)}>
+              <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="5 2 10 7 5 12"/></svg>
+            </button>
+          </div>
+          <div className="work-modal-footer">
+            <div className="work-modal-pagination">
+              {modalProject.images.map((_, i) => (
+                <div
+                  key={i}
+                  className={`work-modal-dot${i === modalIndex ? ' active' : ''}`}
+                  onClick={() => setModalIndex(i)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
