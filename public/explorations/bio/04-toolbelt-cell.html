@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bio — Toolbelt Cell</title>
+<style>
+  :root {
+    --bg: #f2f2f0; --text: #1a1a1a; --line: #dcdcdc; --accent: #8c8c88;
+    --hover: #eceae7; --surface: #fff;
+    --blue: #2A5BD7; --red: #D93F36; --dark: #333; --beige: #D8D4C5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 0.9rem; line-height: 1.5; min-height: 100vh; }
+
+  /* ── Nav ── */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2.5rem; border-bottom: 1px solid var(--line); }
+  nav .nav-label { font-size: 0.65rem; letter-spacing: 0.08em; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  /* ── Hero ── */
+  .hero { position: relative; padding: 5rem 2.5rem 6rem; min-height: 480px; }
+  .hero h1 {
+    font-size: clamp(8rem, 8vw, 12rem); font-weight: 400;
+    letter-spacing: -0.04em; line-height: 1; white-space: pre-wrap;
+    position: relative; z-index: 1;
+  }
+  .cursor {
+    display: inline-block; width: 14px; height: 1em;
+    background: var(--text); vertical-align: baseline;
+    animation: blink 1s step-end infinite; margin-left: 2px;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .hero-textarea {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0; font-size: 1rem; resize: none; cursor: text; z-index: 2;
+  }
+
+  /* ── Draggable Widgets ── */
+  .widget {
+    position: absolute; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; cursor: grab; user-select: none; z-index: 10;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04); transition: box-shadow 0.2s;
+  }
+  .widget.dragging { cursor: grabbing; box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+  .widget-header {
+    padding: 10px 14px; font-size: 0.55rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--accent); border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .widget-header .handle {
+    width: 14px; height: 8px;
+    background: repeating-linear-gradient(0deg, var(--line), var(--line) 1px, transparent 1px, transparent 3px);
+  }
+  .widget-body { padding: 14px; }
+  .widget-body .widget-value { font-size: 1.1rem; font-weight: 500; line-height: 1.3; }
+  .widget-body .widget-sub { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-top: 2px; }
+
+  .widget-lisbon { width: 200px; top: 200px; right: 340px; }
+  .widget-recent { width: 180px; top: 280px; right: 80px; }
+
+  /* ── Toolbelt ── */
+  .toolbelt { display: flex; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .tool-cell {
+    flex: 1; padding: 1.2rem 2rem; border-right: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .tool-cell:last-child { border-right: none; }
+  .tool-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); }
+  .tool-controls { display: flex; flex-direction: row; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .tool-btn {
+    display: inline-block; border: 1px solid var(--line); border-radius: 50px;
+    padding: 4px 12px; font-size: 0.6rem; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--text); background: transparent;
+    cursor: pointer; font-family: inherit; transition: background 0.15s;
+  }
+  .tool-btn:hover { background: var(--hover); }
+
+  /* Theme swatches inside toolbelt */
+  .swatch-row { display: flex; align-items: center; gap: 8px; }
+  .swatch {
+    width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--line);
+    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; flex-shrink: 0;
+  }
+  .swatch:hover { transform: scale(1.15); }
+  .swatch.active { box-shadow: 0 0 0 2.5px var(--bg), 0 0 0 4.5px var(--text); }
+
+  /* About cell */
+  .tool-cell.about-cell .about-text {
+    font-size: 0.75rem; color: var(--text); line-height: 1.5;
+  }
+
+  /* ── Work Section ── */
+  .work-section { padding: 3rem 2.5rem; }
+  .section-title { font-size: 1.6rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 2rem; }
+  .list-header {
+    display: grid; grid-template-columns: 40px 3fr 1.5fr 80px;
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--accent); padding: 0.6rem 0; border-bottom: 1px solid var(--line);
+  }
+  .work-row {
+    display: grid; grid-template-columns: 40px 3fr 1.5fr 80px;
+    padding: 1.5rem 0; border-bottom: 1px solid var(--line);
+    cursor: pointer; transition: background 0.15s; align-items: center;
+  }
+  .work-row:hover { background: var(--hover); }
+  .row-num { font-size: 0.6rem; color: var(--accent); letter-spacing: 0.05em; }
+  .row-name-wrap { display: flex; align-items: center; gap: 10px; }
+  .row-marker { width: 12px; height: 12px; display: inline-block; border-radius: 2px; flex-shrink: 0; }
+  .row-name { font-size: 1rem; font-weight: 500; }
+  .row-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    border: 1px solid var(--line); border-radius: 50px; padding: 2px 10px;
+    font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent);
+  }
+  .row-year { font-size: 0.7rem; color: var(--accent); text-align: right; }
+
+  /* ── Bottom Strip ── */
+  .bottom-strip { display: grid; grid-template-columns: 2fr 1fr; border-top: 1px solid var(--line); }
+  .bottom-col { padding: 2.5rem; }
+  .bottom-col:first-child { border-right: 1px solid var(--line); }
+  .bottom-col h3 {
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--accent); margin-bottom: 1.2rem;
+  }
+  .thought-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 0.7rem 0; border-bottom: 1px solid var(--line);
+  }
+  .thought-row:first-of-type { border-top: 1px solid var(--line); }
+  .thought-title { font-size: 0.85rem; font-weight: 500; }
+  .thought-date { font-size: 0.65rem; color: var(--accent); white-space: nowrap; margin-left: 1rem; }
+  .link-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .link-item { font-size: 0.8rem; color: var(--accent); text-decoration: none; transition: color 0.15s; }
+  .link-item:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <svg width="48" height="32" viewBox="0 0 60 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M40 0C51.0457 0 60 8.9543 60 20C60 31.0457 51.0457 40 40 40C36.3569 40 32.9418 39.0251 30 37.3232C27.0582 39.0251 23.6431 40 20 40C8.9543 40 0 31.0457 0 20C0 8.9543 8.9543 0 20 0C23.6429 0 27.0583 0.974059 30 2.67578C32.9417 0.974059 36.3571 0 40 0ZM20 4C11.1634 4 4 11.1634 4 20C4 28.8366 11.1634 36 20 36C22.2771 36 24.4424 35.5225 26.4033 34.665C22.4655 31.0124 20 25.7946 20 20C20 14.2051 22.4652 8.98664 26.4033 5.33398C24.4424 4.47664 22.277 4 20 4ZM40 4C37.7227 4 35.5568 4.47642 33.5957 5.33398C37.5341 8.98667 40 14.2049 40 20C40 25.7949 37.5338 31.0124 33.5957 34.665C35.5569 35.5227 37.7226 36 40 36C48.8366 36 56 28.8366 56 20C56 11.1634 48.8366 4 40 4ZM30 7.50977C26.3423 10.442 24 14.9473 24 20C24 25.0524 26.3426 29.557 30 32.4893C33.6574 29.557 36 25.0524 36 20C36 14.9473 33.6577 10.442 30 7.50977Z" fill="currentColor"/></svg>
+    <span class="nav-label">Bio Exploration</span>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <div class="hero" id="hero">
+    <h1 id="hero-heading">Hello,
+I'm Vinnie<span class="cursor"></span></h1>
+    <textarea class="hero-textarea" id="hero-textarea" spellcheck="false"></textarea>
+
+    <!-- Draggable widget: Lisbon Studio -->
+    <div class="widget widget-lisbon" id="widget-lisbon">
+      <div class="widget-header">
+        <span>Location</span>
+        <div class="handle"></div>
+      </div>
+      <div class="widget-body">
+        <div class="widget-value">Lisbon Studio</div>
+      </div>
+    </div>
+
+    <!-- Draggable widget: Recent -->
+    <div class="widget widget-recent" id="widget-recent">
+      <div class="widget-header">
+        <span>Recent</span>
+        <div class="handle"></div>
+      </div>
+      <div class="widget-body">
+        <div class="widget-value">12+ Projects</div>
+        <div class="widget-sub">Shipped</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toolbelt ── -->
+  <div class="toolbelt">
+    <!-- About (Bio) Cell -->
+    <div class="tool-cell about-cell">
+      <span class="tool-label">About</span>
+      <span class="about-text">I'm a product designer based in Lisbon. I've designed interfaces for Aevo, Ribbon Finance, Kraken and others.</span>
+    </div>
+
+    <!-- Theme Cell -->
+    <div class="tool-cell">
+      <span class="tool-label">Theme</span>
+      <div class="swatch-row">
+        <div class="swatch active" data-theme="default" style="background:#f2f2f0;" title="Default"></div>
+        <div class="swatch" data-theme="midnight" style="background:#1a1a1a;" title="Midnight"></div>
+        <div class="swatch" data-theme="ocean" style="background:#0a1628;" title="Ocean"></div>
+        <div class="swatch" data-theme="warm" style="background:#f5efe6;" title="Warm"></div>
+        <div class="swatch" data-theme="forest" style="background:#1a2e1a;" title="Forest"></div>
+        <div class="swatch" data-theme="rose" style="background:#2a1520;" title="Rose"></div>
+      </div>
+    </div>
+
+    <!-- Draw Cell -->
+    <div class="tool-cell">
+      <span class="tool-label">Draw</span>
+      <div class="tool-controls">
+        <button class="tool-btn">Marker</button>
+        <button class="tool-btn">Spray</button>
+        <button class="tool-btn">Clear</button>
+      </div>
+    </div>
+
+    <!-- Random Cell -->
+    <div class="tool-cell">
+      <span class="tool-label">Random</span>
+      <div class="tool-controls">
+        <button class="tool-btn">Scramble</button>
+        <button class="tool-btn">X-Ray</button>
+        <button class="tool-btn">Fruit</button>
+      </div>
+    </div>
+
+    <!-- Radio Cell -->
+    <div class="tool-cell">
+      <span class="tool-label">Radio</span>
+      <div class="tool-controls">
+        <button class="tool-btn">Play</button>
+        <button class="tool-btn">Skip</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Work Section ── -->
+  <div class="work-section">
+    <h2 class="section-title">Selected Work</h2>
+    <div class="list-header">
+      <span>#</span>
+      <span>Project</span>
+      <span>Tags</span>
+      <span style="text-align:right">Year</span>
+    </div>
+
+    <div class="work-row">
+      <span class="row-num">01</span>
+      <div class="row-name-wrap">
+        <span class="row-marker" style="background:var(--dark);"></span>
+        <span class="row-name">Aevo &mdash; Perps &amp; Options Exchange</span>
+      </div>
+      <div class="row-tags">
+        <span class="tag">#Defi</span>
+        <span class="tag">#Trading</span>
+      </div>
+      <span class="row-year">2024</span>
+    </div>
+
+    <div class="work-row">
+      <span class="row-num">02</span>
+      <div class="row-name-wrap">
+        <span class="row-marker" style="background:var(--beige);"></span>
+        <span class="row-name">Aevo &mdash; OTC Altcoin Options</span>
+      </div>
+      <div class="row-tags">
+        <span class="tag">#Options</span>
+        <span class="tag">#Onchain</span>
+      </div>
+      <span class="row-year">2024</span>
+    </div>
+
+    <div class="work-row">
+      <span class="row-num">03</span>
+      <div class="row-name-wrap">
+        <span class="row-marker" style="background:var(--red);"></span>
+        <span class="row-name">Ribbon Finance &mdash; Options Vaults</span>
+      </div>
+      <div class="row-tags">
+        <span class="tag">#Defi</span>
+        <span class="tag">#Vaults</span>
+      </div>
+      <span class="row-year">2022</span>
+    </div>
+
+    <div class="work-row">
+      <span class="row-num">04</span>
+      <div class="row-name-wrap">
+        <span class="row-marker" style="background:var(--blue);"></span>
+        <span class="row-name">Ribbon Lend &mdash; Unsecured Lending</span>
+      </div>
+      <div class="row-tags">
+        <span class="tag">#Lending</span>
+        <span class="tag">#Institutional</span>
+      </div>
+      <span class="row-year">2023</span>
+    </div>
+  </div>
+
+  <!-- ── Bottom Strip ── -->
+  <div class="bottom-strip">
+    <div class="bottom-col">
+      <h3>Thoughts</h3>
+      <div class="thought-row">
+        <span class="thought-title">The Global Rules-Based Order is Dead</span>
+        <span class="thought-date">Jan 2026</span>
+      </div>
+      <div class="thought-row">
+        <span class="thought-title">One-Player vs Multiplayer Software</span>
+        <span class="thought-date">Apr 2025</span>
+      </div>
+      <div class="thought-row">
+        <span class="thought-title">Four Potential Drivers of Crypto Adoption</span>
+        <span class="thought-date">Jul 2019</span>
+      </div>
+    </div>
+    <div class="bottom-col">
+      <h3>Links</h3>
+      <div class="link-list">
+        <a class="link-item" href="#">Instagram</a>
+        <a class="link-item" href="#">Twitter / X</a>
+        <a class="link-item" href="#">LinkedIn</a>
+        <a class="link-item" href="#">Dribbble</a>
+        <a class="link-item" href="#">VSCO</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Theme Switcher ── */
+    const themes = {
+      default:  { bg: '#f2f2f0', text: '#1a1a1a', line: '#dcdcdc', accent: '#8c8c88', hover: '#eceae7', surface: '#fff' },
+      midnight: { bg: '#1a1a1a', text: '#e8e8e6', line: '#333333', accent: '#666666', hover: '#e8e8e6', surface: '#222' },
+      ocean:    { bg: '#0a1628', text: '#c8daf0', line: '#1e3a5f', accent: '#4a7ab5', hover: '#c8daf0', surface: '#0f1f38' },
+      warm:     { bg: '#f5efe6', text: '#3d2e1e', line: '#d4c9b8', accent: '#9e8b74', hover: '#ebe5d8', surface: '#faf6ef' },
+      forest:   { bg: '#1a2e1a', text: '#c8e0c4', line: '#2d4a2d', accent: '#6a9a66', hover: '#c8e0c4', surface: '#1f361f' },
+      rose:     { bg: '#2a1520', text: '#e8c8d8', line: '#4a2838', accent: '#b06888', hover: '#e8c8d8', surface: '#351a28' }
+    };
+
+    document.querySelectorAll('.swatch').forEach(sw => {
+      sw.addEventListener('click', () => {
+        const t = themes[sw.dataset.theme];
+        const r = document.documentElement.style;
+        r.setProperty('--bg', t.bg);
+        r.setProperty('--text', t.text);
+        r.setProperty('--line', t.line);
+        r.setProperty('--accent', t.accent);
+        r.setProperty('--hover', t.hover);
+        r.setProperty('--surface', t.surface);
+        document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+        sw.classList.add('active');
+      });
+    });
+
+    /* ── Editable Hero ── */
+    const heroHeading = document.getElementById('hero-heading');
+    const heroTextarea = document.getElementById('hero-textarea');
+    const defaultText = "Hello,\nI'm Vinnie";
+
+    heroTextarea.addEventListener('focus', () => {
+      heroTextarea.value = heroHeading.textContent.replace(/\u200B/g, '').trim();
+    });
+
+    heroTextarea.addEventListener('input', () => {
+      const val = heroTextarea.value || defaultText;
+      heroHeading.innerHTML = val.replace(/\n/g, '\n') + '<span class="cursor"></span>';
+    });
+
+    /* ── Widget Drag ── */
+    function makeDraggable(widgetEl) {
+      const header = widgetEl.querySelector('.widget-header');
+      let isDragging = false, startX, startY, origX, origY, positioned = false;
+
+      header.addEventListener('mousedown', startDrag);
+      header.addEventListener('touchstart', startDrag, { passive: false });
+
+      function startDrag(e) {
+        isDragging = true;
+        widgetEl.classList.add('dragging');
+
+        if (!positioned) {
+          const rect = widgetEl.getBoundingClientRect();
+          const heroRect = document.getElementById('hero').getBoundingClientRect();
+          widgetEl.style.position = 'absolute';
+          widgetEl.style.left = (rect.left - heroRect.left) + 'px';
+          widgetEl.style.top = (rect.top - heroRect.top) + 'px';
+          widgetEl.style.right = 'auto';
+          positioned = true;
+        }
+
+        const point = e.touches ? e.touches[0] : e;
+        startX = point.clientX;
+        startY = point.clientY;
+        origX = parseInt(widgetEl.style.left);
+        origY = parseInt(widgetEl.style.top);
+        e.preventDefault();
+      }
+
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('touchmove', onMove, { passive: false });
+
+      function onMove(e) {
+        if (!isDragging) return;
+        const point = e.touches ? e.touches[0] : e;
+        widgetEl.style.left = (origX + point.clientX - startX) + 'px';
+        widgetEl.style.top = (origY + point.clientY - startY) + 'px';
+        e.preventDefault();
+      }
+
+      document.addEventListener('mouseup', endDrag);
+      document.addEventListener('touchend', endDrag);
+
+      function endDrag() {
+        if (!isDragging) return;
+        isDragging = false;
+        widgetEl.classList.remove('dragging');
+      }
+    }
+
+    makeDraggable(document.getElementById('widget-lisbon'));
+    makeDraggable(document.getElementById('widget-recent'));
+  </script>
+</body>
+</html>

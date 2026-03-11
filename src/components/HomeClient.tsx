@@ -1,18 +1,18 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
-import Link from 'next/link';
+import { useEffect, useRef, useState, useCallback, type ReactNode } from 'react';
+
 import Logo from '@/components/Logo';
 import LiveClock from '@/components/LiveClock';
 
 // ── Theme definitions ──
-const THEMES: Record<string, { bg: string; text: string; line: string; accent: string; hover: string }> = {
-  default:  { bg: '#f2f2f0', text: '#1a1a1a', line: '#dcdcdc', accent: '#8c8c88', hover: '#eceae7' },
-  midnight: { bg: '#1a1a1a', text: '#e8e8e6', line: '#333333', accent: '#666666', hover: '#e8e8e6' },
-  ocean:    { bg: '#0a1628', text: '#c8daf0', line: '#1e3a5f', accent: '#4a7ab5', hover: '#c8daf0' },
-  warm:     { bg: '#f5efe6', text: '#3d2e1e', line: '#d4c9b8', accent: '#9e8b74', hover: '#ebe5d8' },
-  forest:   { bg: '#1a2e1a', text: '#c8e0c4', line: '#2d4a2d', accent: '#6a9a66', hover: '#c8e0c4' },
-  rose:     { bg: '#2a1520', text: '#e8c8d8', line: '#4a2838', accent: '#b06888', hover: '#e8c8d8' },
+const THEMES: Record<string, { bg: string; text: string; line: string; accent: string; hover: string; hoverTitle: string; surface: string }> = {
+  default:  { bg: '#f2f2f0', text: '#1a1a1a', line: '#dcdcdc', accent: '#8c8c88', hover: '#eceae7', hoverTitle: '#1a1a1a', surface: '#fff' },
+  midnight: { bg: '#1a1a1a', text: '#e8e8e6', line: '#333333', accent: '#666666', hover: '#e8e8e6', hoverTitle: '#1a1a1a', surface: '#222' },
+  ocean:    { bg: '#0a1628', text: '#c8daf0', line: '#1e3a5f', accent: '#4a7ab5', hover: '#c8daf0', hoverTitle: '#0a1628', surface: '#0f1f38' },
+  warm:     { bg: '#f5efe6', text: '#3d2e1e', line: '#d4c9b8', accent: '#9e8b74', hover: '#ebe5d8', hoverTitle: '#3d2e1e', surface: '#faf6ef' },
+  forest:   { bg: '#1a2e1a', text: '#c8e0c4', line: '#2d4a2d', accent: '#6a9a66', hover: '#c8e0c4', hoverTitle: '#1a2e1a', surface: '#1f361f' },
+  rose:     { bg: '#2a1520', text: '#e8c8d8', line: '#4a2838', accent: '#b06888', hover: '#e8c8d8', hoverTitle: '#2a1520', surface: '#351a28' },
 };
 
 const SWATCH_COLORS: Record<string, string> = {
@@ -32,14 +32,42 @@ const WORK_ITEMS = [
   { num: '04', key: 'ribbon-lend', name: 'Ribbon Lend \u2014 Unsecured Lending', desc: 'Lending to KYC/AML verified institutional market makers.', tags: ['#LENDING', '#INSTITUTIONAL'], year: '2023', sub: 'Shipped', color: 'bg-blue', images: ['home.png','catalogue.png','mobile-home-catalogue.png','vault.png','vault-scrolled.png','deposit.png','mobile-vault.png','rbn-rewards.png','claiming-rbn.png','rbn-claimed.png','referrals.png','mobile-loading.png','derebit.png'] },
 ];
 
-const THOUGHTS = [
-  { title: 'The Global Rules-Based Order is Dead', date: 'Jan 2026', href: '/thoughts/the-global-rules-based-order-is-dead' },
-  { title: 'One-Player vs Multiplayer Software', date: 'Apr 2025', href: '/thoughts/one-player-vs-multiplayer-software' },
+const THOUGHTS: Array<{ title: string; date: string; href: string; external?: boolean; content?: ReactNode }> = [
+  {
+    title: 'The Global Rules-Based Order is Dead',
+    date: 'Jan 2026',
+    href: '/thoughts/the-global-rules-based-order-is-dead',
+    content: (
+      <>
+        <p>The rules-based world order established by the 1944 Bretton Woods Agreement is dead. So too is the legitimacy of institutions such as the IMF, World Bank, UN, WTO, and NATO, which hard-coded American interests into the plumbing of global finance, trade, and security. We have entered a multipolar world where sovereigns face no choice but to aggressively accumulate the resources necessary to guarantee their own security.</p>
+        <p>The events over the last month (see bullets below) confirm that the US is no longer willing to passively watch on as China ramps up its ambitions to secure energy, rare-earth metals, supply chains and military positioning across the world in order to achieve global supremacy. The &ldquo;Donroe Doctrine&rdquo; (<a href="https://x.com/JackFarley96/status/2008266046520885292" target="_blank" rel="noopener noreferrer">which Steve Hou predicted in December 2025</a>) is now in play &mdash; a Trump-era reinvention of the 1823 Monroe Doctrine asserting the Western Hemisphere as a core zone of American strategic interest:</p>
+        <ul>
+          <li><strong>Operation Absolute Resolve</strong><p>The US secured 50m barrels of Venezuelan heavy crude following the <a href="https://www.youtube.com/watch?v=5LcXCZaYJN4" target="_blank" rel="noopener noreferrer">successful decapitation strike</a> that led to Maduro and his wife being extracted from their Caracas compound and brought to New York City on narco-terrorism and drug-trafficking charges. The message is clear &mdash; China&rsquo;s Belt and Road efforts in the Americas (<a href="https://www.youtube.com/watch?v=1wg_H65c-uI" target="_blank" rel="noopener noreferrer">China was importing nearly 80% of Venezuela&rsquo;s &ldquo;shadow&rdquo; oil</a>) will no longer be tolerated.</p></li>
+          <li><strong>Bid for Greenland</strong><p><a href="https://x.com/wolfejosh/article/2013768012642349120" target="_blank" rel="noopener noreferrer">Josh Wolfe&rsquo;s coverage</a> of the saga is a must-read. Wolfe highlights that European attempts to invoke international law is futile when the mirage of a rules-based order vanishes. With China and Russia continuing to lurk around the arctic, the US understands that securing rare-earths is necessary for its industrial and military strength. Wolfe notes that sovereigns must be guided by &ldquo;the irreducible logic of who controls the inputs for the next generation of weapons&rdquo;.</p></li>
+          <li><strong>Carney says the quiet part out loud &hellip;</strong><p><a href="https://x.com/tparsi/status/2013677260956402059" target="_blank" rel="noopener noreferrer">Carney suggests that the rules-based order was enshrined with US interests and that international law has never been applied in a politically neutral way.</a></p></li>
+        </ul>
+      </>
+    ),
+  },
+  {
+    title: 'One-Player vs Multiplayer Software',
+    date: 'Apr 2025',
+    href: '/thoughts/one-player-vs-multiplayer-software',
+    content: (
+      <>
+        <p>In a world of abundant super intelligence, is it possible that all one-player software (software that doesn&rsquo;t have any network effects) becomes free?</p>
+        <p>We are heading towards a world where anyone can access a fleet of ai agents that can write software better than the best programmers in the world today. In this world, the cost of producing software likely tends towards zero and every dollar of profit across every conceivable vertical of one-player software could be competed away. Oh you like Notion? Just ask your LLM coding agent of choice to spin up an exact clone. What about Duolingo? All done in seconds.</p>
+        <p>One-player software that is built on top of some proprietary data (Palantir Foundry), has some hardware dependency (devices like an Oura ring), has some regulatory protection / barrier (air traffic control software) or some truly unique <a href="https://www.youtube.com/watch?v=QdBZY2fkU-0" target="_blank" rel="noopener noreferrer">brand / product experience</a> likely still has the ability to charge non-zero fees.</p>
+        <p>Otherwise multiplayer software (any software with real network effects) are likely the only pieces of software that have any real economic durability.</p>
+      </>
+    ),
+  },
   { title: 'Four Potential Drivers of Crypto Adoption', date: 'Jul 2019', href: 'https://medium.com/@vinnielive/four-potential-drivers-of-crypto-adoption-59be6bf8a75e', external: true },
 ];
 
 const LINKS = [
   { label: 'Instagram', href: 'https://www.instagram.com/f1uxu5/' },
+  { label: 'GitHub', href: 'https://github.com/vinnie-io' },
   { label: 'Twitter / X', href: 'https://x.com/vinnie_io' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/vinnie-padmanabhan/' },
   { label: 'Dribbble', href: 'https://dribbble.com/vinnie_p' },
@@ -97,6 +125,11 @@ export default function HomeClient() {
   const modalHeaderRef = useRef<HTMLDivElement>(null);
   const modalPositionedRef = useRef(false);
 
+  // ── Thought modal state ──
+  const [thoughtItem, setThoughtItem] = useState<typeof THOUGHTS[0] | null>(null);
+  const thoughtModalRef = useRef<HTMLDivElement>(null);
+  const thoughtPositionedRef = useRef(false);
+
   // ── Widget drag state ──
   const widgetRefs = useRef<Map<string, { el: HTMLDivElement; promoted: boolean }>>(new Map());
 
@@ -119,6 +152,8 @@ export default function HomeClient() {
     root.setProperty('--line', t.line);
     root.setProperty('--accent', t.accent);
     root.setProperty('--hover', t.hover);
+    root.setProperty('--hover-title', t.hoverTitle);
+    root.setProperty('--surface', t.surface);
   }, [activeTheme]);
 
   // ── Canvas resize ──
@@ -474,18 +509,24 @@ export default function HomeClient() {
 
   // ── Work modal handlers ──
   const openModal = (item: typeof WORK_ITEMS[0]) => {
-    setModalProject(item);
-    setModalIndex(0);
-    modalPositionedRef.current = false;
-    // Reset position to center
-    setTimeout(() => {
-      const el = modalRef.current;
-      if (el) {
-        el.style.left = '50%';
-        el.style.top = '50%';
-        el.style.transform = 'translate(-50%, -50%)';
-      }
-    }, 0);
+    // Preload first image before showing modal to avoid size flicker
+    const img = new Image();
+    img.src = `/projects/${item.key}/${item.images[0]}`;
+    const show = () => {
+      setModalProject(item);
+      setModalIndex(0);
+      modalPositionedRef.current = false;
+      setTimeout(() => {
+        const el = modalRef.current;
+        if (el) {
+          el.style.left = '50%';
+          el.style.top = '50%';
+          el.style.transform = 'translate(-50%, -50%)';
+        }
+      }, 0);
+    };
+    if (img.complete) show();
+    else img.onload = show;
   };
 
   const closeModal = () => setModalProject(null);
@@ -495,9 +536,61 @@ export default function HomeClient() {
     setModalIndex(prev => (prev + dir + modalProject.images.length) % modalProject.images.length);
   };
 
+  // ── Thought modal handlers ──
+  const openThought = (item: typeof THOUGHTS[0]) => {
+    if (item.external || !item.content) return;
+    setThoughtItem(item);
+    thoughtPositionedRef.current = false;
+    setTimeout(() => {
+      const el = thoughtModalRef.current;
+      if (el) {
+        el.style.left = '50%';
+        el.style.top = '50%';
+        el.style.transform = 'translate(-50%, -50%)';
+      }
+    }, 0);
+  };
+
+  const closeThought = () => setThoughtItem(null);
+
+  const handleThoughtDrag = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('.thought-modal-close')) return;
+    const widget = thoughtModalRef.current;
+    if (!widget) return;
+    e.preventDefault();
+
+    if (!thoughtPositionedRef.current) {
+      const rect = widget.getBoundingClientRect();
+      widget.style.left = rect.left + 'px';
+      widget.style.top = rect.top + 'px';
+      widget.style.transform = 'none';
+      thoughtPositionedRef.current = true;
+    }
+
+    widget.classList.add('dragging');
+    const origLeft = parseInt(widget.style.left);
+    const origTop = parseInt(widget.style.top);
+    const startX = e.clientX;
+    const startY = e.clientY;
+
+    function onMove(ev: MouseEvent) {
+      widget!.style.left = (origLeft + ev.clientX - startX) + 'px';
+      widget!.style.top = (origTop + ev.clientY - startY) + 'px';
+    }
+    function onUp() {
+      widget!.classList.remove('dragging');
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  };
+
   // Modal keyboard nav
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
+      if (thoughtItem && e.key === 'Escape') { closeThought(); return; }
       if (!modalProject) return;
       if (e.key === 'Escape') closeModal();
       if (e.key === 'ArrowLeft') modalGo(-1);
@@ -546,7 +639,7 @@ export default function HomeClient() {
   const displayText = scrambleDisplay !== null ? scrambleDisplay : heroText;
   const renderHero = () => {
     const lines = displayText.split('\n');
-    const elements: React.ReactNode[] = [];
+    const elements: ReactNode[] = [];
     lines.forEach((line, i) => {
       if (i === lines.length - 1 && line.length === 0) {
         // skip empty last line for text node, cursor goes at start
@@ -581,11 +674,11 @@ export default function HomeClient() {
 
     if (!entry.promoted) {
       const r = widget.getBoundingClientRect();
-      widget.style.position = 'absolute';
-      widget.style.left = (r.left + scrollX) + 'px';
-      widget.style.top = (r.top + scrollY) + 'px';
+      const parent = widget.offsetParent as HTMLElement;
+      const pr = parent ? parent.getBoundingClientRect() : { left: 0, top: 0 };
+      widget.style.left = (r.left - pr.left) + 'px';
+      widget.style.top = (r.top - pr.top) + 'px';
       widget.style.right = 'auto';
-      widget.style.margin = '0';
       entry.promoted = true;
     }
 
@@ -638,28 +731,38 @@ export default function HomeClient() {
 
         {/* Widgets */}
         <div
-          className="widget w2"
+          className="widget widget-bio"
           data-drag
-          ref={(el) => { if (el) widgetRefs.current.set('w2', { el, promoted: widgetRefs.current.get('w2')?.promoted || false }); }}
-          onMouseDown={(e) => handleWidgetMouseDown('w2', e)}
+          ref={(el) => { if (el) widgetRefs.current.set('bio', { el, promoted: widgetRefs.current.get('bio')?.promoted || false }); }}
+          onMouseDown={(e) => handleWidgetMouseDown('bio', e)}
         >
-          <div className="widget-header"><span>Lisbon Studio</span><div className="handle" /></div>
-          <div className="widget-body" style={{ height: 120, background: '#e8e7e3', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><rect x="4" y="8" width="28" height="20" rx="2" stroke="#bbb" strokeWidth="1.5"/><circle cx="18" cy="18" r="5" stroke="#bbb" strokeWidth="1"/><circle cx="18" cy="18" r="1.5" fill="#bbb"/></svg>
+          <div className="widget-header"><span>About</span><div className="handle" /></div>
+          <div className="widget-body-text">
+            I&apos;m a product designer based in Lisbon. I&apos;ve designed interfaces for Aevo, Ribbon Finance, Kraken and others.
           </div>
-          <div className="widget-caption">Workspace &middot; 2026</div>
         </div>
 
         <div
-          className="widget w3"
+          className="widget widget-vid widget-vid-1"
           data-drag
-          ref={(el) => { if (el) widgetRefs.current.set('w3', { el, promoted: widgetRefs.current.get('w3')?.promoted || false }); }}
-          onMouseDown={(e) => handleWidgetMouseDown('w3', e)}
+          ref={(el) => { if (el) widgetRefs.current.set('vid1', { el, promoted: widgetRefs.current.get('vid1')?.promoted || false }); }}
+          onMouseDown={(e) => handleWidgetMouseDown('vid1', e)}
         >
-          <div className="widget-header"><span>Recent</span><div className="handle" /></div>
-          <div style={{ height: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 4 }}>
-            <div style={{ fontSize: '2.2rem', fontWeight: 300, color: 'var(--accent)' }}>12+</div>
-            <div style={{ fontSize: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent)' }}>Projects Shipped</div>
+          <div className="widget-header"><span>TD Exploration 1</span><div className="handle" /></div>
+          <div className="widget-vid-body">
+            <video src="/media/glass-clip.mp4" autoPlay muted loop playsInline />
+          </div>
+        </div>
+
+        <div
+          className="widget widget-vid widget-vid-3"
+          data-drag
+          ref={(el) => { if (el) widgetRefs.current.set('vid3', { el, promoted: widgetRefs.current.get('vid3')?.promoted || false }); }}
+          onMouseDown={(e) => handleWidgetMouseDown('vid3', e)}
+        >
+          <div className="widget-header"><span>TD Exploration 3</span><div className="handle" /></div>
+          <div className="widget-vid-body">
+            <video src="/media/monoWaveOrb-clip.mp4" autoPlay muted loop playsInline />
           </div>
         </div>
       </div>
@@ -777,14 +880,14 @@ export default function HomeClient() {
           {THOUGHTS.map((t) =>
             t.external ? (
               <a key={t.title} href={t.href} className="thought-row" target="_blank" rel="noopener noreferrer">
-                <span className="thought-title">{t.title}</span>
+                <span className="thought-title">{t.title} &rarr;</span>
                 <span className="thought-date">{t.date}</span>
               </a>
             ) : (
-              <Link key={t.title} href={t.href} className="thought-row">
+              <div key={t.title} className="thought-row" onClick={() => openThought(t)} style={{ cursor: 'pointer' }}>
                 <span className="thought-title">{t.title}</span>
                 <span className="thought-date">{t.date}</span>
-              </Link>
+              </div>
             )
           )}
         </div>
@@ -797,6 +900,22 @@ export default function HomeClient() {
           ))}
         </div>
       </div>
+
+      {/* Thought Modal */}
+      {thoughtItem && (
+        <div className="thought-modal" ref={thoughtModalRef}>
+          <div className="thought-modal-header" onMouseDown={handleThoughtDrag}>
+            <span>{thoughtItem.title}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div className="handle" />
+              <button className="thought-modal-close" onClick={closeThought}>&times;</button>
+            </div>
+          </div>
+          <div className="thought-modal-body article-content">
+            {thoughtItem.content}
+          </div>
+        </div>
+      )}
 
       {/* Work Modal */}
       {modalProject && (

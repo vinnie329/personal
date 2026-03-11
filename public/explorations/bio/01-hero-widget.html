@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bio — Hero Widget</title>
+<style>
+  :root {
+    --bg: #f2f2f0; --text: #1a1a1a; --line: #dcdcdc; --accent: #8c8c88;
+    --hover: #eceae7; --surface: #fff;
+    --blue: #2A5BD7; --red: #D93F36; --dark: #333; --beige: #D8D4C5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--text);
+    font-size: 0.9rem; line-height: 1.5; font-weight: 400;
+    min-height: 100vh;
+  }
+
+  /* ── Nav ── */
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 2.5rem; border-bottom: 1px solid var(--line);
+  }
+  nav .nav-label {
+    font-size: 0.65rem; letter-spacing: 0.08em; color: var(--accent);
+    text-transform: uppercase;
+  }
+  nav svg { color: var(--text); }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative; padding: 5rem 2.5rem 6rem; min-height: 480px;
+    overflow: hidden;
+  }
+  .hero h1 {
+    font-size: clamp(8rem, 8vw, 12rem); font-weight: 400;
+    letter-spacing: -0.04em; line-height: 1;
+    white-space: pre-wrap; outline: none;
+    position: relative; z-index: 1;
+  }
+  .cursor {
+    display: inline-block; width: 14px; height: 1em;
+    background: var(--text); vertical-align: baseline;
+    animation: blink 0.7s step-end infinite;
+    margin-left: 2px; position: relative; top: 0.06em;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .hero-textarea {
+    position: absolute; top: 0; left: 0;
+    width: 0; height: 0; opacity: 0; pointer-events: none;
+  }
+
+  /* ── Widgets (shared) ── */
+  .widget {
+    position: absolute; background: var(--surface);
+    border: 1px solid var(--line); border-radius: 10px;
+    overflow: hidden; user-select: none; z-index: 10;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s;
+  }
+  .widget.dragging { box-shadow: 0 12px 40px rgba(0,0,0,0.12); z-index: 20; }
+
+  .widget-header {
+    padding: 10px 14px; font-size: 0.55rem;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent);
+    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: grab;
+  }
+  .widget-header.dragging { cursor: grabbing; }
+  .widget-header .handle {
+    width: 14px; height: 8px;
+    background: repeating-linear-gradient(0deg, var(--line), var(--line) 1px, transparent 1px, transparent 3px);
+  }
+
+  .widget-body {
+    padding: 14px; font-size: 0.8rem; color: var(--text); line-height: 1.5;
+    background: var(--surface);
+  }
+
+  /* Widget: Bio */
+  .widget-bio { width: 260px; top: 120px; right: 280px; z-index: 30; }
+
+  /* Widget: Video */
+  .widget-vid { width: 256px; }
+  .widget-vid .widget-body {
+    padding: 0; overflow: hidden; line-height: 0;
+  }
+  .widget-vid video {
+    display: block; width: 100%; border-radius: 0 0 9px 9px;
+  }
+  .widget-vid-1 { top: 140px; right: 460px; z-index: 20; }
+
+  .widget-vid-3 { top: 60px; right: 100px; z-index: 20; }
+
+  /* ── Toolbelt ── */
+  .toolbelt {
+    display: flex; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .tool-cell {
+    flex: 1; padding: 1.2rem 2rem; border-right: 1px solid var(--line);
+  }
+  .tool-cell:last-child { border-right: none; }
+  .tool-label {
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--accent); margin-bottom: 0.7rem;
+  }
+  .tool-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .tool-btn {
+    display: inline-flex; align-items: center; gap: 4px;
+    border: 1px solid var(--line); border-radius: 50px;
+    padding: 4px 12px; font-size: 0.6rem; text-transform: uppercase;
+    letter-spacing: 0.06em; background: transparent; color: var(--text);
+    cursor: pointer; font-family: inherit; transition: background 0.15s;
+  }
+  .tool-btn:hover { background: var(--hover); }
+
+  /* Theme swatches */
+  .swatches { display: flex; align-items: center; gap: 8px; }
+  .swatch {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid var(--line); cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s; flex-shrink: 0;
+  }
+  .swatch:hover { transform: scale(1.15); }
+  .swatch.active { box-shadow: 0 0 0 2.5px var(--bg), 0 0 0 4.5px var(--text); }
+
+  /* Radio cell */
+  .radio-controls { display: flex; align-items: center; gap: 8px; }
+  .radio-time {
+    font-size: 0.55rem; color: var(--accent); font-variant-numeric: tabular-nums;
+    margin-left: 4px;
+  }
+  .radio-progress {
+    flex: 1; height: 3px; background: var(--line); border-radius: 2px;
+    margin: 0 8px; position: relative; min-width: 60px;
+  }
+  .radio-progress-fill {
+    position: absolute; left: 0; top: 0; height: 100%; width: 35%;
+    background: var(--text); border-radius: 2px;
+  }
+  .radio-volume {
+    width: 40px; height: 3px; background: var(--line); border-radius: 2px;
+    position: relative;
+  }
+  .radio-volume-fill {
+    position: absolute; left: 0; top: 0; height: 100%; width: 70%;
+    background: var(--text); border-radius: 2px;
+  }
+
+  /* ── Work Section ── */
+  .work-section { padding: 3rem 2.5rem; }
+  .section-title {
+    font-size: 1.6rem; font-weight: 400; letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+  .list-header {
+    display: grid; grid-template-columns: 40px 3fr 1.5fr 80px;
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--accent); padding: 0.8rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .work-row {
+    display: grid; grid-template-columns: 40px 3fr 1.5fr 80px;
+    align-items: center; padding: 1.5rem 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer; transition: background 0.15s;
+  }
+  .work-row:hover { background: var(--hover); }
+  .row-no { font-size: 0.7rem; color: var(--accent); }
+  .row-name {
+    font-size: 1rem; font-weight: 500; display: flex; align-items: center; gap: 10px;
+  }
+  .row-marker {
+    display: inline-block; width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0;
+  }
+  .row-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    border: 1px solid var(--line); border-radius: 50px;
+    padding: 2px 10px; font-size: 0.55rem; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--accent);
+  }
+  .row-year { font-size: 0.7rem; color: var(--accent); text-align: right; }
+
+  /* ── Bottom Strip ── */
+  .bottom-strip {
+    display: grid; grid-template-columns: 2fr 1fr;
+    border-top: 1px solid var(--line);
+  }
+  .bottom-col { padding: 2.5rem; }
+  .bottom-col:first-child { border-right: 1px solid var(--line); }
+  .bottom-col-title {
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--accent); margin-bottom: 1rem;
+  }
+  .thought-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 0.7rem 0; border-bottom: 1px solid var(--line);
+    cursor: pointer; transition: color 0.15s;
+  }
+  .thought-row:hover { color: var(--accent); }
+  .thought-title { font-size: 0.85rem; }
+  .thought-date { font-size: 0.65rem; color: var(--accent); white-space: nowrap; margin-left: 1rem; }
+  .link-item {
+    display: block; font-size: 0.8rem; color: var(--accent);
+    text-decoration: none; padding: 0.5rem 0;
+    border-bottom: 1px solid var(--line);
+    transition: color 0.15s;
+  }
+  .link-item:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <svg width="48" height="32" viewBox="0 0 60 40" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M40 0C51.0457 0 60 8.9543 60 20C60 31.0457 51.0457 40 40 40C36.3569 40 32.9418 39.0251 30 37.3232C27.0582 39.0251 23.6431 40 20 40C8.9543 40 0 31.0457 0 20C0 8.9543 8.9543 0 20 0C23.6429 0 27.0583 0.974059 30 2.67578C32.9417 0.974059 36.3571 0 40 0ZM20 4C11.1634 4 4 11.1634 4 20C4 28.8366 11.1634 36 20 36C22.2771 36 24.4424 35.5225 26.4033 34.665C22.4655 31.0124 20 25.7946 20 20C20 14.2051 22.4652 8.98664 26.4033 5.33398C24.4424 4.47664 22.277 4 20 4ZM40 4C37.7227 4 35.5568 4.47642 33.5957 5.33398C37.5341 8.98667 40 14.2049 40 20C40 25.7949 37.5338 31.0124 33.5957 34.665C35.5569 35.5227 37.7226 36 40 36C48.8366 36 56 28.8366 56 20C56 11.1634 48.8366 4 40 4ZM30 7.50977C26.3423 10.442 24 14.9473 24 20C24 25.0524 26.3426 29.557 30 32.4893C33.6574 29.557 36 25.0524 36 20C36 14.9473 33.6577 10.442 30 7.50977Z" fill="currentColor"/></svg>
+    <span class="nav-label">Bio Exploration</span>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1 id="hero-text">Hello,
+I'm Vinnie<span class="cursor"></span></h1>
+    <textarea class="hero-textarea" id="hero-textarea"></textarea>
+
+    <!-- Widget: Bio -->
+    <div class="widget widget-bio" data-draggable>
+      <div class="widget-header">
+        <span>About</span>
+        <div class="handle"></div>
+      </div>
+      <div class="widget-body">
+        I'm a product designer based in Lisbon. I've designed interfaces for Aevo, Ribbon Finance, Kraken and others.
+      </div>
+    </div>
+
+    <!-- Widget: Video 1 -->
+    <div class="widget widget-vid widget-vid-1" data-draggable>
+      <div class="widget-header">
+        <span>TD Exploration 1</span>
+        <div class="handle"></div>
+      </div>
+      <div class="widget-body">
+        <video src="/media/glass-clip.mp4" autoplay muted loop playsinline></video>
+      </div>
+    </div>
+
+
+    <!-- Widget: Video 3 -->
+    <div class="widget widget-vid widget-vid-3" data-draggable>
+      <div class="widget-header">
+        <span>TD Exploration 3</span>
+        <div class="handle"></div>
+      </div>
+      <div class="widget-body">
+        <video src="/media/monoWaveOrb-clip.mp4" autoplay muted loop playsinline></video>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toolbelt -->
+  <div class="toolbelt">
+    <!-- Theme -->
+    <div class="tool-cell">
+      <div class="tool-label">Theme</div>
+      <div class="swatches">
+        <div class="swatch active" data-theme="default" style="background:#f2f2f0;" title="Default"></div>
+        <div class="swatch" data-theme="midnight" style="background:#1a1a1a;" title="Midnight"></div>
+        <div class="swatch" data-theme="ocean" style="background:#0a1628;" title="Ocean"></div>
+        <div class="swatch" data-theme="warm" style="background:#f5efe6;" title="Warm"></div>
+        <div class="swatch" data-theme="forest" style="background:#1a2e1a;" title="Forest"></div>
+        <div class="swatch" data-theme="rose" style="background:#2a1520;" title="Rose"></div>
+      </div>
+    </div>
+
+    <!-- Draw -->
+    <div class="tool-cell">
+      <div class="tool-label">Draw</div>
+      <div class="tool-row">
+        <button class="tool-btn">Marker</button>
+        <button class="tool-btn">Spray</button>
+        <button class="tool-btn">Clear</button>
+      </div>
+    </div>
+
+    <!-- Random -->
+    <div class="tool-cell">
+      <div class="tool-label">Random</div>
+      <div class="tool-row">
+        <button class="tool-btn">Scramble</button>
+        <button class="tool-btn">X-Ray</button>
+        <button class="tool-btn">Fruit</button>
+      </div>
+    </div>
+
+    <!-- Radio -->
+    <div class="tool-cell">
+      <div class="tool-label">Radio</div>
+      <div class="radio-controls">
+        <button class="tool-btn">&#9664;</button>
+        <button class="tool-btn">&#9654;</button>
+        <button class="tool-btn">&#9654;&#9654;</button>
+        <span class="radio-time">1:24</span>
+        <div class="radio-progress"><div class="radio-progress-fill"></div></div>
+        <div class="radio-volume"><div class="radio-volume-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Work Section -->
+  <div class="work-section">
+    <h2 class="section-title">Selected Work</h2>
+
+    <div class="list-header">
+      <span>No.</span>
+      <span>Project</span>
+      <span>Tags</span>
+      <span style="text-align:right;">Year</span>
+    </div>
+
+    <div class="work-row">
+      <span class="row-no">01</span>
+      <span class="row-name">
+        <span class="row-marker" style="background:var(--dark);"></span>
+        Aevo &mdash; Perps &amp; Options Exchange
+      </span>
+      <span class="row-tags">
+        <span class="tag">Defi</span>
+        <span class="tag">Trading</span>
+      </span>
+      <span class="row-year">2024 Shipped</span>
+    </div>
+
+    <div class="work-row">
+      <span class="row-no">02</span>
+      <span class="row-name">
+        <span class="row-marker" style="background:var(--beige);"></span>
+        Aevo &mdash; OTC Altcoin Options
+      </span>
+      <span class="row-tags">
+        <span class="tag">Options</span>
+        <span class="tag">Onchain</span>
+      </span>
+      <span class="row-year">2024 Shipped</span>
+    </div>
+
+    <div class="work-row">
+      <span class="row-no">03</span>
+      <span class="row-name">
+        <span class="row-marker" style="background:var(--red);"></span>
+        Ribbon Finance &mdash; Options Vaults
+      </span>
+      <span class="row-tags">
+        <span class="tag">Defi</span>
+        <span class="tag">Vaults</span>
+      </span>
+      <span class="row-year">2022 Shipped</span>
+    </div>
+
+    <div class="work-row">
+      <span class="row-no">04</span>
+      <span class="row-name">
+        <span class="row-marker" style="background:var(--blue);"></span>
+        Ribbon Lend &mdash; Unsecured Lending
+      </span>
+      <span class="row-tags">
+        <span class="tag">Lending</span>
+        <span class="tag">Institutional</span>
+      </span>
+      <span class="row-year">2023 Shipped</span>
+    </div>
+  </div>
+
+  <!-- Bottom Strip -->
+  <div class="bottom-strip">
+    <div class="bottom-col">
+      <div class="bottom-col-title">Thoughts</div>
+      <div class="thought-row">
+        <span class="thought-title">The Global Rules-Based Order is Dead</span>
+        <span class="thought-date">Jan 2026</span>
+      </div>
+      <div class="thought-row">
+        <span class="thought-title">One-Player vs Multiplayer Software</span>
+        <span class="thought-date">Apr 2025</span>
+      </div>
+      <div class="thought-row">
+        <span class="thought-title">Four Potential Drivers of Crypto Adoption</span>
+        <span class="thought-date">Jul 2019</span>
+      </div>
+    </div>
+    <div class="bottom-col">
+      <div class="bottom-col-title">Links</div>
+      <a href="#" class="link-item">Instagram</a>
+      <a href="#" class="link-item">Twitter / X</a>
+      <a href="#" class="link-item">LinkedIn</a>
+      <a href="#" class="link-item">Dribbble</a>
+      <a href="#" class="link-item">VSCO</a>
+    </div>
+  </div>
+
+  <script>
+    /* ── Theme Switcher ── */
+    const themes = {
+      default:  { bg: '#f2f2f0', text: '#1a1a1a', line: '#dcdcdc', accent: '#8c8c88', hover: '#eceae7', surface: '#fff' },
+      midnight: { bg: '#1a1a1a', text: '#e8e8e6', line: '#333333', accent: '#666666', hover: '#e8e8e6', surface: '#222' },
+      ocean:    { bg: '#0a1628', text: '#c8daf0', line: '#1e3a5f', accent: '#4a7ab5', hover: '#c8daf0', surface: '#0f1f38' },
+      warm:     { bg: '#f5efe6', text: '#3d2e1e', line: '#d4c9b8', accent: '#9e8b74', hover: '#ebe5d8', surface: '#faf6ef' },
+      forest:   { bg: '#1a2e1a', text: '#c8e0c4', line: '#2d4a2d', accent: '#6a9a66', hover: '#c8e0c4', surface: '#1f361f' },
+      rose:     { bg: '#2a1520', text: '#e8c8d8', line: '#4a2838', accent: '#b06888', hover: '#e8c8d8', surface: '#351a28' }
+    };
+
+    document.querySelectorAll('.swatch').forEach(sw => {
+      sw.addEventListener('click', () => {
+        const t = themes[sw.dataset.theme];
+        const r = document.documentElement.style;
+        r.setProperty('--bg', t.bg);
+        r.setProperty('--text', t.text);
+        r.setProperty('--line', t.line);
+        r.setProperty('--accent', t.accent);
+        r.setProperty('--hover', t.hover);
+        r.setProperty('--surface', t.surface);
+        document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+        sw.classList.add('active');
+      });
+    });
+
+    /* ── Draggable Widgets ── */
+    document.querySelectorAll('[data-draggable]').forEach(widget => {
+      const header = widget.querySelector('.widget-header');
+      let isDragging = false, startX, startY, origLeft, origTop, positioned = false;
+
+      header.addEventListener('mousedown', e => {
+        isDragging = true;
+        header.classList.add('dragging');
+        widget.classList.add('dragging');
+
+        if (!positioned) {
+          const rect = widget.getBoundingClientRect();
+          const heroRect = widget.parentElement.getBoundingClientRect();
+          widget.style.left = (rect.left - heroRect.left) + 'px';
+          widget.style.top = (rect.top - heroRect.top) + 'px';
+          widget.style.right = 'auto';
+          positioned = true;
+        }
+
+        startX = e.clientX;
+        startY = e.clientY;
+        origLeft = parseInt(widget.style.left);
+        origTop = parseInt(widget.style.top);
+        e.preventDefault();
+      });
+
+      document.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        widget.style.left = (origLeft + e.clientX - startX) + 'px';
+        widget.style.top = (origTop + e.clientY - startY) + 'px';
+      });
+
+      document.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        header.classList.remove('dragging');
+        widget.classList.remove('dragging');
+      });
+    });
+
+    /* ── Editable Hero Text ── */
+    const heroText = document.getElementById('hero-text');
+    const textarea = document.getElementById('hero-textarea');
+
+    heroText.addEventListener('click', () => {
+      textarea.style.width = '1px';
+      textarea.style.height = '1px';
+      textarea.style.pointerEvents = 'auto';
+      textarea.focus();
+    });
+
+    textarea.addEventListener('input', () => {
+      const val = textarea.value || "Hello,\nI'm Vinnie";
+      heroText.innerHTML = val.replace(/\n/g, '\n') + '<span class="cursor"></span>';
+    });
+
+    textarea.addEventListener('blur', () => {
+      textarea.style.width = '0';
+      textarea.style.height = '0';
+      textarea.style.pointerEvents = 'none';
+    });
+  </script>
+</body>
+</html>
