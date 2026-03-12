@@ -319,7 +319,7 @@ nav .coords {
   z-index: 50;
 }
 
-.widget:hover { border-color: #ccc; box-shadow: 0 6px 24px rgba(0,0,0,0.06); }
+@media (hover: hover) { .widget:hover { border-color: #ccc; box-shadow: 0 6px 24px rgba(0,0,0,0.06); } }
 .widget.dragging { cursor: grabbing; box-shadow: 0 16px 48px rgba(0,0,0,0.10); border-color: #bbb; z-index: 9999; }
 
 .widget-header {
@@ -400,7 +400,7 @@ nav .coords {
   flex-shrink: 0;
 }
 
-.swatch:hover { transform: scale(1.15); }
+@media (hover: hover) { .swatch:hover { transform: scale(1.15); } }
 .swatch.active { box-shadow: 0 0 0 2.5px var(--bg), 0 0 0 4.5px var(--text); }
 
 /* Tool buttons */
@@ -421,10 +421,10 @@ nav .coords {
   transition: background 0.15s, border-color 0.15s;
 }
 
-.tool-btn:hover { border-color: var(--accent); }
+@media (hover: hover) { .tool-btn:hover { border-color: var(--accent); } }
 .tool-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 .tool-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.tool-btn:disabled:hover { border-color: var(--line); }
+@media (hover: hover) { .tool-btn:disabled:hover { border-color: var(--line); } }
 .tool-btn svg { width: 14px; height: 14px; }
 
 /* Sound / Radio controls */
@@ -444,7 +444,7 @@ nav .coords {
   flex-shrink: 0;
 }
 
-.sound-btn:hover { border-color: var(--accent); }
+@media (hover: hover) { .sound-btn:hover { border-color: var(--accent); } }
 .sound-btn.play-btn { width: 30px; height: 30px; }
 .sound-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 .sound-btn svg { width: 12px; height: 12px; }
@@ -564,11 +564,13 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
 
 .row:last-child { border-bottom: none; }
 
-.row:hover {
-  background: var(--hover);
-  margin: 0 -2.5rem;
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+@media (hover: hover) {
+  .row:hover {
+    background: var(--hover);
+    margin: 0 -2.5rem;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 }
 
 .row-num {
@@ -588,7 +590,7 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
 
 .row-main { padding-right: 2rem; }
 .row-name { font-size: 1rem; font-weight: 500; margin-bottom: 4px; transition: color 0.1s; }
-.row:hover .row-name { color: var(--hover-title, var(--text)); }
+@media (hover: hover) { .row:hover .row-name { color: var(--hover-title, var(--text)); } }
 .row-desc { font-size: 0.8rem; color: #888; padding-left: 22px; }
 .row-year { font-size: 0.85rem; text-align: right; }
 .row-year .sub { font-size: 0.55rem; color: var(--accent); text-transform: uppercase; display: block; margin-top: 2px; }
@@ -606,7 +608,7 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
 }
 
 .tag.action { border-color: var(--text); color: var(--text); font-weight: 600; }
-.tag.action:hover { background: var(--text); color: var(--bg); }
+@media (hover: hover) { .tag.action:hover { background: var(--text); color: var(--bg); } }
 
 .bg-blue { background: var(--blue); }
 .bg-red { background: var(--red); }
@@ -659,7 +661,7 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
   transition: color 0.15s;
 }
 
-.link-item:hover { color: var(--text); }
+@media (hover: hover) { .link-item:hover { color: var(--text); } }
 
 /* ============================================
    11. PROJECT PAGE
@@ -770,7 +772,7 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
 .article-content ul li p { margin: 0; }
 
 .article-content a { color: var(--accent); text-decoration: underline; }
-.article-content a:hover { opacity: 0.7; }
+@media (hover: hover) { .article-content a:hover { opacity: 0.7; } }
 
 /* ============================================
    13. IMAGE MODAL
@@ -821,7 +823,7 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
 }
 
 .image-modal-close img { width: 24px; height: 24px; display: block; }
-.image-modal-close:hover { opacity: 0.7; }
+@media (hover: hover) { .image-modal-close:hover { opacity: 0.7; } }
 
 /* ============================================
    14. WORK MODAL (DRAGGABLE)
@@ -880,7 +882,7 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
   transition: border-color 0.15s, color 0.15s;
 }
 
-.work-modal-close:hover { border-color: var(--text); color: var(--text); }
+@media (hover: hover) { .work-modal-close:hover { border-color: var(--text); color: var(--text); } }
 
 .work-modal-body {
   position: relative;
@@ -913,7 +915,7 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
   z-index: 2;
 }
 
-.work-modal-nav:hover { border-color: var(--text); color: var(--text); }
+@media (hover: hover) { .work-modal-nav:hover { border-color: var(--text); color: var(--text); } }
 .work-modal-nav.prev { left: 12px; }
 .work-modal-nav.next { right: 12px; }
 .work-modal-nav svg { width: 12px; height: 12px; }
@@ -994,7 +996,7 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
   transition: border-color 0.15s, color 0.15s;
 }
 
-.thought-modal-close:hover { border-color: var(--text); color: var(--text); }
+@media (hover: hover) { .thought-modal-close:hover { border-color: var(--text); color: var(--text); } }
 
 .thought-modal-body {
   padding: 2rem;
@@ -1014,6 +1016,7 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
   .hero h1 { font-size: clamp(4rem, 10vw, 8rem); }
   .toolbelt { flex-wrap: nowrap; }
   .tool-cell { flex: 0 0 auto; min-width: 200px; }
+  .draw-cell { display: none; }
   .work-section { padding: 2rem 1.5rem; }
   .row { grid-template-columns: 30px 1fr 80px; }
   .row .tags { display: none; }

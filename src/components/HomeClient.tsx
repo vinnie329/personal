@@ -786,7 +786,7 @@ export default function HomeClient() {
         </div>
 
         {/* Draw */}
-        <div className="tool-cell">
+        <div className="tool-cell draw-cell">
           <div className="tool-label">Draw</div>
           <div className="tool-controls">
             <button className={`tool-btn${drawMode === 'brush' ? ' active' : ''}`} onClick={() => handleDraw('brush')}>
