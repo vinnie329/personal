@@ -67,7 +67,7 @@ const THOUGHTS: Array<{ title: string; date: string; href: string; external?: bo
 
 const LINKS = [
   { label: 'Instagram', href: 'https://www.instagram.com/f1uxu5/' },
-  { label: 'GitHub', href: 'https://github.com/vinnie-io' },
+  { label: 'GitHub', href: 'https://github.com/vinnie329' },
   { label: 'Twitter / X', href: 'https://x.com/vinnie_io' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/vinnie-padmanabhan/' },
   { label: 'Dribbble', href: 'https://dribbble.com/vinnie_p' },
