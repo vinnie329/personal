@@ -261,10 +261,12 @@ nav .coords {
 
 .hero {
   position: relative;
-  padding: 5rem 2.5rem 6rem;
+  padding: 2.5rem;
   min-height: 480px;
   cursor: text;
   caret-color: transparent;
+  display: flex;
+  align-items: center;
 }
 
 .hero h1 {
@@ -360,7 +362,11 @@ nav .coords {
   display: flex;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
+.toolbelt::-webkit-scrollbar { display: none; }
 
 .tool-cell {
   flex: 1;
@@ -938,24 +944,24 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 640px;
-  max-width: calc(100vw - 80px);
-  max-height: calc(100vh - 80px);
+  width: 40rem;
+  max-width: calc(100vw - 5rem);
+  max-height: calc(100vh - 5rem);
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 0.75rem;
   overflow: hidden;
   z-index: 1001;
   user-select: none;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.12);
+  box-shadow: 0 1.5rem 5rem rgba(0,0,0,0.12);
   display: flex;
   flex-direction: column;
 }
 
-.thought-modal.dragging { box-shadow: 0 32px 100px rgba(0,0,0,0.18); }
+.thought-modal.dragging { box-shadow: 0 2rem 6.25rem rgba(0,0,0,0.18); }
 
 .thought-modal-header {
-  padding: 12px 18px;
+  padding: 0.75rem 1.125rem;
   font-size: 0.55rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -969,15 +975,15 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
 }
 
 .thought-modal-header .handle {
-  width: 14px;
-  height: 8px;
+  width: 0.875rem;
+  height: 0.5rem;
   background: repeating-linear-gradient(0deg, var(--line), var(--line) 1px, transparent 1px, transparent 3px);
 }
 
 .thought-modal.dragging .thought-modal-header { cursor: grabbing; }
 
 .thought-modal-close {
-  width: 24px; height: 24px;
+  width: 1.5rem; height: 1.5rem;
   border: 1px solid var(--line);
   border-radius: 50%;
   background: transparent;
@@ -1003,10 +1009,11 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
    ============================================ */
 
 @media (max-width: 960px) {
+  .hero h1 .cursor { width: 8px; }
   .hero { padding: 3rem 1.5rem 4rem; min-height: 300px; }
   .hero h1 { font-size: clamp(4rem, 10vw, 8rem); }
-  .toolbelt { flex-wrap: wrap; }
-  .tool-cell { flex: 1 1 50%; min-width: 200px; }
+  .toolbelt { flex-wrap: nowrap; }
+  .tool-cell { flex: 0 0 auto; min-width: 200px; }
   .work-section { padding: 2rem 1.5rem; }
   .row { grid-template-columns: 30px 1fr 80px; }
   .row .tags { display: none; }
@@ -1019,27 +1026,35 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
 
 @media (max-width: 768px) {
   .work-modal {
-    top: 0; left: 0;
+    top: 32px; left: 32px;
     transform: none;
-    width: 100vw;
-    height: 100vh;
-    max-width: 100vw;
+    width: calc(100vw - 64px);
+    height: calc(100vh - 64px);
+    max-width: calc(100vw - 64px);
     border-radius: 12px;
     border: 1px solid var(--line);
   }
   .work-modal-header { cursor: default; }
   .work-modal-body { flex: 1; }
-  .work-modal-body img { max-width: calc(100vw - 24px); max-height: calc(100vh - 100px); }
+  .work-modal-body img { max-width: calc(100vw - 88px); max-height: calc(100vh - 164px); }
   .work-modal-nav { width: 28px; height: 28px; }
   .work-modal-nav.prev { left: 8px; }
   .work-modal-nav.next { right: 8px; }
+
+  .thought-modal {
+    top: 2rem; left: 2rem;
+    transform: none;
+    width: calc(100vw - 4rem);
+    max-height: calc(100vh - 4rem);
+  }
+  .thought-modal-header { cursor: default; }
 }
 
 @media (max-width: 600px) {
+  .hero h1 .cursor { width: 5px; margin-left: 4px; }
   .hero { padding: 2rem 1rem 3rem; min-height: 200px; }
   .hero h1 { font-size: clamp(3rem, 12vw, 5rem); }
-  .tool-cell { flex: 1 1 100%; border-right: none; border-bottom: 1px solid var(--line); }
-  .tool-cell:last-child { border-bottom: none; }
+  .tool-cell { flex: 0 0 auto; min-width: 180px; }
   .work-section { padding: 1.5rem 1rem; }
   .row { grid-template-columns: 1fr; gap: 8px; }
   .row-num, .row-year { display: none; }
