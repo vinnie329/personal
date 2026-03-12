@@ -769,7 +769,7 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
 .article-content ul li strong { display: block; font-weight: 600; margin-bottom: 0.5em; }
 .article-content ul li p { margin: 0; }
 
-.article-content a { color: #FF4D00; text-decoration: underline; }
+.article-content a { color: var(--accent); text-decoration: underline; }
 .article-content a:hover { opacity: 0.7; }
 
 /* ============================================
@@ -1061,4 +1061,5 @@ body.spraying .toolbelt *, body.brushing .toolbelt * { cursor: pointer !importan
   .list-header { display: none; }
   nav { padding: 1rem; }
   .bottom-left, .bottom-right { padding: 1.5rem 1rem; }
+  .bottom-right .link-item { padding: 0.3rem 0; }
 }
