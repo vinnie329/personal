@@ -26,10 +26,10 @@ const FRUITS = ['\u{1F34A}','\u{1F34B}','\u{1F34E}','\u{1F347}','\u{1F353}','\u{
 
 // ── Work data ──
 const WORK_ITEMS = [
-  { num: '01', key: 'aevo-perps', name: 'Aevo \u2014 Perps & Options Exchange', desc: 'High-performance derivatives trading interface for a decentralized exchange.', tags: ['#DEFI', '#TRADING'], year: '2024', sub: 'Shipped', color: 'bg-dark', images: ['perps-trading-price-chart.png','perps-trading-depth-chart.png','options-trading-options-chain.png','options-trading-options-chain-1.png','options-trading-trade-history.png','portfolio-convert-modal-typing.png','strategies.png','airdrops.png','rbn-to-aevo.png','cmd-k.png','mobile-trading.png'] },
-  { num: '02', key: 'aevo-otc', name: 'Aevo \u2014 OTC Altcoin Options', desc: 'Over-the-counter options trading settled onchain for institutional participants.', tags: ['#OPTIONS', '#ONCHAIN'], year: '2024', sub: 'Shipped', color: 'bg-beige', images: ['otc-pending-order.png','payoff.png','strike-selection.png','pending-order.png','order-filled.png','portfolio.png','positin-modal.png','expiry-selection-active.png'] },
-  { num: '03', key: 'ribbon-finance', name: 'Ribbon Finance \u2014 Options Vaults', desc: "DeFi's first structured products for automated on-chain yield generation.", tags: ['#DEFI', '#VAULTS'], year: '2022', sub: 'Shipped', color: 'bg-red', images: ['vault.png','catalogue-grid.png','catalogue-carousel.png','mobile-vault.png','vault-scroll.png','payoff.png','vault-activity.png','rbn-claim.png','rbn-claiming.png','rbn-claimed.png','staking.png','rewards-calc.png'] },
-  { num: '04', key: 'ribbon-lend', name: 'Ribbon Lend \u2014 Unsecured Lending', desc: 'Lending to KYC/AML verified institutional market makers.', tags: ['#LENDING', '#INSTITUTIONAL'], year: '2023', sub: 'Shipped', color: 'bg-blue', images: ['home.png','catalogue.png','mobile-home-catalogue.png','vault.png','vault-scrolled.png','deposit.png','mobile-vault.png','rbn-rewards.png','claiming-rbn.png','rbn-claimed.png','referrals.png','mobile-loading.png','derebit.png'] },
+  { num: '01', key: 'aevo-perps', name: 'Aevo \u2014 Perps & Options Exchange', desc: 'High-performance derivatives trading interface for a decentralized exchange.', tags: ['#DEFI', '#TRADING'], year: '2024', sub: 'Shipped', color: 'bg-dark', images: ['perps-trading-price-chart.webp','perps-trading-depth-chart.webp','options-trading-options-chain.webp','options-trading-options-chain-1.webp','options-trading-trade-history.webp','portfolio-convert-modal-typing.webp','strategies.webp','airdrops.webp','rbn-to-aevo.webp','cmd-k.webp','mobile-trading.webp'] },
+  { num: '02', key: 'aevo-otc', name: 'Aevo \u2014 OTC Altcoin Options', desc: 'Over-the-counter options trading settled onchain for institutional participants.', tags: ['#OPTIONS', '#ONCHAIN'], year: '2024', sub: 'Shipped', color: 'bg-beige', images: ['otc-pending-order.webp','payoff.webp','strike-selection.webp','pending-order.webp','order-filled.webp','portfolio.webp','positin-modal.webp','expiry-selection-active.webp'] },
+  { num: '03', key: 'ribbon-finance', name: 'Ribbon Finance \u2014 Options Vaults', desc: "DeFi's first structured products for automated on-chain yield generation.", tags: ['#DEFI', '#VAULTS'], year: '2022', sub: 'Shipped', color: 'bg-red', images: ['vault.webp','catalogue-grid.webp','catalogue-carousel.webp','mobile-vault.webp','vault-scroll.webp','payoff.webp','vault-activity.webp','rbn-claim.webp','rbn-claiming.webp','rbn-claimed.webp','staking.webp','rewards-calc.webp'] },
+  { num: '04', key: 'ribbon-lend', name: 'Ribbon Lend \u2014 Unsecured Lending', desc: 'Lending to KYC/AML verified institutional market makers.', tags: ['#LENDING', '#INSTITUTIONAL'], year: '2023', sub: 'Shipped', color: 'bg-blue', images: ['home.webp','catalogue.webp','mobile-home-catalogue.webp','vault.webp','vault-scrolled.webp','deposit.webp','mobile-vault.webp','rbn-rewards.webp','claiming-rbn.webp','rbn-claimed.webp','referrals.webp','mobile-loading.webp'] },
 ];
 
 const THOUGHTS: Array<{ title: string; date: string; href: string; external?: boolean; content?: ReactNode }> = [
@@ -933,7 +933,7 @@ export default function HomeClient() {
             </button>
             <img
               src={`/projects/${modalProject.key}/${modalProject.images[modalIndex]}`}
-              alt={modalProject.images[modalIndex].replace(/-/g, ' ').replace('.png', '')}
+              alt={modalProject.images[modalIndex].replace(/-/g, ' ').replace('.webp', '')}
             />
             <button className="work-modal-nav next" onClick={() => modalGo(1)}>
               <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="5 2 10 7 5 12"/></svg>

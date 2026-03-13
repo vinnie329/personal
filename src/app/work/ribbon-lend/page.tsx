@@ -2,19 +2,18 @@ import Link from 'next/link';
 import Logo from '@/components/Logo';
 
 const IMAGES = [
-  'home.png',
-  'catalogue.png',
-  'mobile-home-catalogue.png',
-  'vault.png',
-  'vault-scrolled.png',
-  'deposit.png',
-  'mobile-vault.png',
-  'rbn-rewards.png',
-  'claiming-rbn.png',
-  'rbn-claimed.png',
-  'referrals.png',
-  'mobile-loading.png',
-  'derebit.png',
+  'home.webp',
+  'catalogue.webp',
+  'mobile-home-catalogue.webp',
+  'vault.webp',
+  'vault-scrolled.webp',
+  'deposit.webp',
+  'mobile-vault.webp',
+  'rbn-rewards.webp',
+  'claiming-rbn.webp',
+  'rbn-claimed.webp',
+  'referrals.webp',
+  'mobile-loading.webp',
 ];
 
 export default function RibbonLend() {
@@ -35,7 +34,7 @@ export default function RibbonLend() {
           <div key={imageName} className="project-image-wrapper">
             <img
               src={`/projects/ribbon-lend/${imageName}`}
-              alt={`Ribbon Lend ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
+              alt={`Ribbon Lend ${imageName.replace(/-/g, ' ').replace('.webp', '')}`}
               className="project-image"
             />
           </div>

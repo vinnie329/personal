@@ -2,18 +2,18 @@ import Link from 'next/link';
 import Logo from '@/components/Logo';
 
 const IMAGES = [
-  'vault.png',
-  'catalogue-grid.png',
-  'catalogue-carousel.png',
-  'mobile-vault.png',
-  'vault-scroll.png',
-  'payoff.png',
-  'vault-activity.png',
-  'rbn-claim.png',
-  'rbn-claiming.png',
-  'rbn-claimed.png',
-  'staking.png',
-  'rewards-calc.png',
+  'vault.webp',
+  'catalogue-grid.webp',
+  'catalogue-carousel.webp',
+  'mobile-vault.webp',
+  'vault-scroll.webp',
+  'payoff.webp',
+  'vault-activity.webp',
+  'rbn-claim.webp',
+  'rbn-claiming.webp',
+  'rbn-claimed.webp',
+  'staking.webp',
+  'rewards-calc.webp',
 ];
 
 export default function RibbonFinance() {
@@ -34,7 +34,7 @@ export default function RibbonFinance() {
           <div key={imageName} className="project-image-wrapper">
             <img
               src={`/projects/ribbon-finance/${imageName}`}
-              alt={`Ribbon Finance ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
+              alt={`Ribbon Finance ${imageName.replace(/-/g, ' ').replace('.webp', '')}`}
               className="project-image"
             />
           </div>

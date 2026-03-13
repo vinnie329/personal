@@ -18,22 +18,22 @@ export default function AevoPerps() {
       {/* Project Images */}
       <main className="project-content">
         {[
-          'perps-trading-price-chart.png',
-          'perps-trading-depth-chart.png',
-          'options-trading-options-chain.png',
-          'options-trading-options-chain-1.png',
-          'options-trading-trade-history.png',
-          'portfolio-convert-modal-typing.png',
-          'strategies.png',
-          'airdrops.png',
-          'rbn-to-aevo.png',
-          'cmd-k.png',
-          'mobile-trading.png',
+          'perps-trading-price-chart.webp',
+          'perps-trading-depth-chart.webp',
+          'options-trading-options-chain.webp',
+          'options-trading-options-chain-1.webp',
+          'options-trading-trade-history.webp',
+          'portfolio-convert-modal-typing.webp',
+          'strategies.webp',
+          'airdrops.webp',
+          'rbn-to-aevo.webp',
+          'cmd-k.webp',
+          'mobile-trading.webp',
         ].map((imageName) => (
           <div key={imageName} className="project-image-wrapper">
             <img
               src={`/projects/aevo-perps/${imageName}`}
-              alt={`Aevo ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
+              alt={`Aevo ${imageName.replace(/-/g, ' ').replace('.webp', '')}`}
               className="project-image"
             />
           </div>

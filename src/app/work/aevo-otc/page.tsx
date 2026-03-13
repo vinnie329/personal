@@ -2,14 +2,14 @@ import Link from 'next/link';
 import Logo from '@/components/Logo';
 
 const IMAGES = [
-  'otc-pending-order.png',
-  'payoff.png',
-  'strike-selection.png',
-  'pending-order.png',
-  'order-filled.png',
-  'portfolio.png',
-  'positin-modal.png',
-  'expiry-selection-active.png',
+  'otc-pending-order.webp',
+  'payoff.webp',
+  'strike-selection.webp',
+  'pending-order.webp',
+  'order-filled.webp',
+  'portfolio.webp',
+  'positin-modal.webp',
+  'expiry-selection-active.webp',
 ];
 
 export default function AevoOtc() {
@@ -30,7 +30,7 @@ export default function AevoOtc() {
           <div key={imageName} className="project-image-wrapper">
             <img
               src={`/projects/aevo-otc/${imageName}`}
-              alt={`Aevo OTC ${imageName.replace(/-/g, ' ').replace('.png', '')}`}
+              alt={`Aevo OTC ${imageName.replace(/-/g, ' ').replace('.webp', '')}`}
               className="project-image"
             />
           </div>
