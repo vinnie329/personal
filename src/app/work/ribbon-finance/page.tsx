@@ -30,12 +30,13 @@ export default function RibbonFinance() {
       </header>
 
       <main className="project-content">
-        {IMAGES.map((imageName) => (
+        {IMAGES.map((imageName, i) => (
           <div key={imageName} className="project-image-wrapper">
             <img
               src={`/projects/ribbon-finance/${imageName}`}
               alt={`Ribbon Finance ${imageName.replace(/-/g, ' ').replace('.webp', '')}`}
               className="project-image"
+              loading={i === 0 ? 'eager' : 'lazy'}
             />
           </div>
         ))}

@@ -29,12 +29,13 @@ export default function AevoPerps() {
           'rbn-to-aevo.webp',
           'cmd-k.webp',
           'mobile-trading.webp',
-        ].map((imageName) => (
+        ].map((imageName, i) => (
           <div key={imageName} className="project-image-wrapper">
             <img
               src={`/projects/aevo-perps/${imageName}`}
               alt={`Aevo ${imageName.replace(/-/g, ' ').replace('.webp', '')}`}
               className="project-image"
+              loading={i === 0 ? 'eager' : 'lazy'}
             />
           </div>
         ))}

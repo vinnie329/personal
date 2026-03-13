@@ -30,12 +30,13 @@ export default function RibbonLend() {
       </header>
 
       <main className="project-content">
-        {IMAGES.map((imageName) => (
+        {IMAGES.map((imageName, i) => (
           <div key={imageName} className="project-image-wrapper">
             <img
               src={`/projects/ribbon-lend/${imageName}`}
               alt={`Ribbon Lend ${imageName.replace(/-/g, ' ').replace('.webp', '')}`}
               className="project-image"
+              loading={i === 0 ? 'eager' : 'lazy'}
             />
           </div>
         ))}
